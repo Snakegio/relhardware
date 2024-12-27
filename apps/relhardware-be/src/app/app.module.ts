@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
-import { Role } from './roles/role.entity';
+import { User } from './users/entity/user.entity';
+import { Roles } from './roles/entities/roles.entity';
 import { ConfigModule } from '@nestjs/config';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { ConfigModule } from '@nestjs/config';
       password: 'relhardware',
       database: 'postgres',
       schema: 'relhardware',
-      entities: [User, Role],
+      entities: [User, Roles],
       synchronize: false,
     }),
     AuthModule,
@@ -24,6 +25,7 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    RolesModule,
   ],
 })
 export class AppModule {}

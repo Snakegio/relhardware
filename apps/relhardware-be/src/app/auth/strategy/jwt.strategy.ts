@@ -20,13 +20,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    this.logger.log('JwtStrategy: payload ', payload);
     const user = await this.usersService.findOneWithRoles(payload.sub);
     if (!user) {
       throw new UnauthorizedException();
     }
     delete user.password;
-    this.logger.log('JwtStrategy: user ', user);
 
     return user;
   }

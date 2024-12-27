@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Role } from '../roles/role.entity';
+import { Roles } from '../../roles/entities/roles.entity';
 
 @Entity('users') // Nome della tabella come nel database
 export class User {
@@ -41,11 +41,11 @@ export class User {
   @Column({ name: 'pdf_report', type: 'bigint', nullable: true })
   pdfReport: number | null;
 
-  @ManyToMany(() => Role, (role) => role.users, { eager: true, cascade: true })
+  @ManyToMany(() => Roles, (role) => role.users, { eager: true, cascade: true })
   @JoinTable({
     name: 'user_roles', // Nome della tabella di join
     joinColumn: { name: 'user_id', referencedColumnName: 'id' },
     inverseJoinColumn: { name: 'role_id', referencedColumnName: 'id' },
   })
-  roles: Role[];
+  roles: Roles[];
 }
