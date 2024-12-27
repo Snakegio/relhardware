@@ -27,3 +27,5 @@ import { ConfigModule } from '@nestjs/config';
   ],
 })
 export class AppModule {}
+
+//todo giorgio indagare per generazione pdf nestjs-html-pdf

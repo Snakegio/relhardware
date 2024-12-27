@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:17
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: relhardware
+      POSTGRES_DB: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data # Volume per la persistenza dei dati
+      - ./init-schema.sql:/docker-entrypoint-initdb.d/10-init-schema.sql
+      - ./init-data.sql:/docker-entrypoint-initdb.d/20-init-data.sql
+
+volumes:
+  db_data: # Definisce il volume nominato
