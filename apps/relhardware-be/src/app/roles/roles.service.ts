@@ -8,7 +8,7 @@ import { Roles } from './entities/roles.entity';
 //todo remember to send emitter for create historical element
 @Injectable()
 export class RolesService {
-  private readonly logger = new Logger(RolesService.name);
+  private readonly logger = new Logger(RolesService.name, { timestamp: true });
 
   constructor(
     @InjectRepository(Roles)

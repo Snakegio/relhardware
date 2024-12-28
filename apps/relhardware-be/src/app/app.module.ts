@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entity/user.entity';
+import { User } from './users/entities/user.entity';
 import { Roles } from './roles/entities/roles.entity';
 import { ConfigModule } from '@nestjs/config';
 import { RolesModule } from './roles/roles.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [

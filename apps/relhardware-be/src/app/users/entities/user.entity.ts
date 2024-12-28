@@ -1,15 +1,13 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { Roles } from '../../roles/entities/roles.entity';
 
-@Entity('users') // Nome della tabella come nel database
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -20,10 +18,16 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   surname: string;
 
-  @CreateDateColumn({ name: 'creation_date', type: 'timestamp' })
+  @Column({
+    name: 'creation_date',
+    default: () => 'NOW()',
+  })
   creationDate: Date;
 
-  @UpdateDateColumn({ name: 'modification_date', type: 'timestamp' })
+  @Column({
+    name: 'modification_date',
+    default: () => 'NOW()',
+  })
   modificationDate: Date;
 
   @Column({ type: 'varchar', unique: true })
