@@ -1,0 +1,29 @@
+@use 'mixins' as *;
+
+.layout-topbar {
+  position: fixed;
+  height: 4rem;
+  z-index: 997;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding: 0;
+  background-color: var(--surface-card);
+  transition: left var(--layout-section-transition-duration);
+  display: flex;
+  align-items: center;
+
+  p-menubar {
+      width: 100%;
+
+    .layout-topbar-logo {
+      padding-left: 20px;
+      padding-right: 135px;
+    }
+
+  }
+
+
+}
+
+

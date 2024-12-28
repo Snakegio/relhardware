@@ -1,0 +1,14 @@
+<div class="layout-topbar">
+  <p-menubar [model]="items">
+    <ng-template pTemplate="start">
+      <img src="/images/logo-white.png" height="40" class="layout-topbar-logo mr-2" alt="brand logo">
+    </ng-template>
+    <ng-template pTemplate="end">
+      <p-button class="p-link layout-topbar-button"  (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-cog"></i>
+        <span>Settings</span>
+      </p-button>
+    </ng-template>
+  </p-menubar>
+</div>
+
