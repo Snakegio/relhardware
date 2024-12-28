@@ -28,7 +28,8 @@
         ],
         "styles": [
           "node_modules/primeflex/primeflex.css",
-          "apps/relhardware-fe/src/styles.scss"
+          "apps/relhardware-fe/src/styles.scss",
+          "apps/relhardware-fe/src/assets/styles.scss"
         ],
         "scripts": []
       },

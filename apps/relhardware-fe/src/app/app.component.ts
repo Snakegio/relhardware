@@ -7,6 +7,7 @@ import { PrimeNG } from 'primeng/config';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  standalone: true
 })
 export class AppComponent implements OnInit {
   title = 'relhardware-fe';
