@@ -15,10 +15,10 @@ import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { RolesGuard } from '../auth/guard/roles.guard';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { ReadPermission } from '../auth/decorator/read-permission.decorator';
-import { RolePermissionGuard } from '../auth/guard/role-permission.guard';
+import { PermissionGuard } from '../auth/guard/permission-guard.service';
 
 @Controller('roles')
-@UseGuards(JwtAuthGuard, RolesGuard, RolePermissionGuard)
+@UseGuards(JwtAuthGuard, RolesGuard, PermissionGuard)
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 

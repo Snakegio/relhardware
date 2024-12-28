@@ -12,14 +12,15 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-import { RolePermissionGuard } from '../auth/guard/role-permission.guard';
+import { PermissionGuard } from '../auth/guard/permission-guard.service';
 import { RolesGuard } from '../auth/guard/roles.guard';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { ReadPermission } from '../auth/decorator/read-permission.decorator';
 import { UserResponseDto } from './dto/user-response.dto';
+import { ModifyPermission } from '../auth/decorator/modify-permission.decorator';
 
 @Controller('users')
-@UseGuards(JwtAuthGuard, RolePermissionGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, PermissionGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -30,7 +31,7 @@ export class UsersController {
   }
 
   @Get()
-  @ReadPermission()
+  @ModifyPermission()
   findAll(): Promise<UserResponseDto[]> {
     return this.usersService.findAll();
   }
