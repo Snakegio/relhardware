@@ -6,6 +6,8 @@ import { Roles } from './roles/entities/roles.entity';
 import { ConfigModule } from '@nestjs/config';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
+import { CompanyModule } from './company/company.module';
+import { Company } from './company/entities/company.entity';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { UsersModule } from './users/users.module';
       password: 'relhardware',
       database: 'postgres',
       schema: 'relhardware',
-      entities: [User, Roles],
+      entities: [User, Roles, Company],
       synchronize: false,
     }),
     AuthModule,
@@ -26,6 +28,7 @@ import { UsersModule } from './users/users.module';
       isGlobal: true,
     }),
     RolesModule,
+    CompanyModule,
   ],
 })
 export class AppModule {}
