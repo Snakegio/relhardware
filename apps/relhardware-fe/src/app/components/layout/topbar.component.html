@@ -4,18 +4,12 @@
       <img src="images/logo-white.png" height="40" class="layout-topbar-logo mr-2" alt="brand logo">
     </ng-template>
     <ng-template pTemplate="end">
+      <p-menu #profileMenu [popup]="true" [model]="profileMenuItems"></p-menu>
       <p-button
-        class="p-link layout-topbar-button"
-        (click)="popover.toggle($event)"
         icon="pi pi-user"
+        class="p-button-text"
+        (click)="profileMenu.toggle($event)"
       ></p-button>
-      <p-popover #popover class="popover-modified">
-        <ul>
-          <li>
-            <a class="p-link" href="#" (click)="logout()">Logout</a>
-          </li>
-        </ul>
-      </p-popover>
     </ng-template>
   </p-menubar>
 </div>

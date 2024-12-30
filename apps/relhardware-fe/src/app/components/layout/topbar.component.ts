@@ -3,20 +3,22 @@ import {MenuItem, MenuItemCommandEvent, PrimeTemplate} from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {LayoutService} from '../../service/layout.service';
-import {Button} from 'primeng/button';
+import { Button, ButtonModule } from 'primeng/button';
 import {Menubar} from 'primeng/menubar';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { Popover } from 'primeng/popover';
+import { Popover, PopoverModule } from 'primeng/popover';
+import { Menu } from 'primeng/menu';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
   templateUrl: './topbar.component.html',
-  imports: [RouterModule, CommonModule, Button, Menubar, PrimeTemplate, OverlayPanelModule, Popover]
+  imports: [RouterModule, CommonModule, Button, Menubar, PrimeTemplate, ButtonModule, PopoverModule, Menu]
 })
 export class TopbarComponent implements OnInit {
 
     items!: MenuItem[];
+    profileMenuItems!: MenuItem[];
 
     @ViewChild('menubutton') menuButton!: ElementRef;
 
@@ -35,6 +37,9 @@ export class TopbarComponent implements OnInit {
         }
       }
       ];
+    this.profileMenuItems = [
+      { label: 'Logout', icon: 'pi pi-sign-out', command: () => this.logout() }
+    ];
   }
 
 
