@@ -21,9 +21,28 @@
       padding-right: 135px;
     }
 
+
   }
 
 
+}
+.p-popover .popover-modified {
+  margin-bottom: 30px !important;
+}
+
+.p-popover ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.p-popover li {
+  margin: 0.5em 0;
+}
+
+.p-popover a {
+  text-decoration: none;
+  color: inherit;
 }
 
 

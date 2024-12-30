@@ -5,15 +5,16 @@ import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {LayoutService} from '../../service/layout.service';
 import {Button} from 'primeng/button';
 import {Menubar} from 'primeng/menubar';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { Popover } from 'primeng/popover';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
   templateUrl: './topbar.component.html',
-  imports: [RouterModule, CommonModule, Button, Menubar, PrimeTemplate]
+  imports: [RouterModule, CommonModule, Button, Menubar, PrimeTemplate, OverlayPanelModule, Popover]
 })
 export class TopbarComponent implements OnInit {
-
 
     items!: MenuItem[];
 
@@ -36,5 +37,12 @@ export class TopbarComponent implements OnInit {
       ];
   }
 
-  logout(): void {}
+
+
+  logout() {
+    console.log('Logout');
+   //TODO che logica c'è ?
+    localStorage.removeItem('authToken');
+    window.location.href = '/login'; // Reindirizza alla pagina di login
+  }
 }
