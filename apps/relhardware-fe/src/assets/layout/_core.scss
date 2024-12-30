@@ -4,7 +4,6 @@ html {
 }
 
 body {
-    font-family: 'Lato', sans-serif;
     color: var(--text-color);
     background-color: var(--surface-ground);
     margin: 0;
@@ -21,3 +20,34 @@ a {
 .layout-wrapper {
     min-height: 100vh;
 }
+
+.roboto-thin {
+  font-family: "Roboto", serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.roboto-light {
+  font-family: "Roboto", serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.roboto-medium {
+  font-family: "Roboto", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.roboto-bold {
+  font-family: "Roboto", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.roboto-black {
+  font-family: "Roboto", serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
