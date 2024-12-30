@@ -38,7 +38,7 @@ export class CompanyService {
   async update(id: number, updateCompanyDto: UpdateCompanyDto) {
     const company = await this.companyRepository.findOneBy({ id });
     if (!company) {
-      throw new NotFoundException(`Role with ID ${id} not found`);
+      throw new NotFoundException(`Company with ID ${id} not found`);
     }
 
     Object.assign(company, updateCompanyDto);

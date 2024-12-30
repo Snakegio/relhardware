@@ -16,7 +16,9 @@ import { RolesGuard } from '../auth/guard/roles.guard';
 import { Roles } from '../auth/decorator/roles.decorator';
 import { ReadPermission } from '../auth/decorator/read-permission.decorator';
 import { PermissionGuard } from '../auth/guard/permission-guard.service';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('roles')
 @UseGuards(JwtAuthGuard, RolesGuard, PermissionGuard)
 export class RolesController {
