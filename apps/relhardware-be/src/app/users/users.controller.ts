@@ -18,7 +18,9 @@ import { Roles } from '../auth/decorator/roles.decorator';
 import { ReadPermission } from '../auth/decorator/read-permission.decorator';
 import { UserResponseDto } from './dto/user-response.dto';
 import { ModifyPermission } from '../auth/decorator/modify-permission.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('users')
 @UseGuards(JwtAuthGuard, PermissionGuard, RolesGuard)
 export class UsersController {

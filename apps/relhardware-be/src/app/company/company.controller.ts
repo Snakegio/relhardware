@@ -16,7 +16,9 @@ import { PermissionGuard } from '../auth/guard/permission-guard.service';
 import { RolesGuard } from '../auth/guard/roles.guard';
 import { ReadPermission } from '../auth/decorator/read-permission.decorator';
 import { ModifyPermission } from '../auth/decorator/modify-permission.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('company')
 @UseGuards(JwtAuthGuard, PermissionGuard, RolesGuard)
 export class CompanyController {
