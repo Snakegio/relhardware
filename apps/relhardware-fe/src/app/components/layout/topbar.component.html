@@ -4,10 +4,12 @@
       <img src="/images/logo-white.png" height="40" class="layout-topbar-logo mr-2" alt="brand logo">
     </ng-template>
     <ng-template pTemplate="end">
-      <p-button class="p-link layout-topbar-button"  (click)="layoutService.showProfileSidebar()">
-        <i class="pi pi-cog"></i>
-        <span>Settings</span>
-      </p-button>
+      <p-menu #profileMenu [popup]="true" [model]="profileMenuItems"></p-menu>
+      <p-button
+        icon="pi pi-user"
+        class="p-button-text"
+        (click)="profileMenu.toggle($event)"
+      ></p-button>
     </ng-template>
   </p-menubar>
 </div>
