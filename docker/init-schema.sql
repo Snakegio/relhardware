@@ -2,131 +2,129 @@ CREATE SCHEMA relhardware;
 
 set schema 'relhardware';
 
-CREATE TABLE item_types
+create table relhardware.roles
 (
-  id   BIGSERIAL PRIMARY KEY,
-  name VARCHAR
-);
-
-create table roles
-(
-  id           bigserial not null
-    constraint roles_pkey
+  id           serial
+    constraint "PK_c1433d71a4838793a49dcad46ab"
       primary key,
-  name         varchar,
-  read         boolean default false,
-  modify       boolean default false,
-  read_pdf     boolean default false,
-  read_history boolean default false
+  name         varchar               not null,
+  read         boolean default false not null,
+  modify       boolean default false not null,
+  read_pdf     boolean default false not null,
+  read_history boolean default false not null
 );
 
-CREATE TABLE pdf_reports
-(
-  id            BIGSERIAL PRIMARY KEY,
-  creation_date TIMESTAMP,
-  data          BYTEA
-);
+alter table relhardware.roles
+  owner to postgres;
 
-CREATE TABLE users
+create table relhardware.users
 (
-  id                BIGSERIAL PRIMARY KEY,
-  name              VARCHAR,
-  surname           VARCHAR,
-  creation_date     TIMESTAMP,
-  modification_date TIMESTAMP,
-  email             VARCHAR,
-  password          VARCHAR,
-  enable            BOOLEAN DEFAULT FALSE,
-  enable_internet   BOOLEAN DEFAULT FALSE,
-  pdf_report        BIGINT
-    constraint pdf_reports_fkey
-      references pdf_reports
-);
-
--- auto-generated definition
-create table items
-(
-  id                bigserial not null
-    constraint items_pkey
+  id                serial
+    constraint "PK_a3ffb1c0c8416b9fc6f907b7433"
       primary key,
-  item_type         bigint
-    constraint items_item_type_fkey
-      references item_types,
-  internal_code     text,
-  model             text,
-  service_tag       text,
-  company           text,
-  site              text,
-  contract          text,
-  docking_station   boolean default false,
-  product_number    text,
-  mac_address       text,
-  creation_date     timestamp,
-  modification_date timestamp
+  name              varchar,
+  surname           varchar,
+  creation_date     timestamp default now() not null,
+  modification_date timestamp default now() not null,
+  email             varchar                 not null
+    constraint "UQ_97672ac88f789774dd47f7c8be3"
+      unique,
+  password          varchar                 not null,
+  enable            boolean   default false not null,
+  enable_internet   boolean   default false not null,
+  pdf_report        bigint
 );
 
-CREATE TABLE assignations
+alter table relhardware.users
+  owner to postgres;
+
+create table relhardware.company
 (
-  id                BIGSERIAL PRIMARY KEY,
-  user_id           BIGINT REFERENCES users (id),
-  item_id           BIGINT REFERENCES items (id),
-  note              text DEFAULT ''::text,
-  assignation_date  TIMESTAMP,
-  modification_date TIMESTAMP
-
-);
-
-CREATE TYPE operation AS ENUM ('creation', 'modify', 'delete');
-
--- auto-generated definition
-create table history
-(
-  id                bigserial             not null
-    constraint history_pkey
+  id       serial
+    constraint "PK_056f7854a7afdba7cbd6d45fc20"
       primary key,
-  logged_user       text,
-  operation         relhardware.operation not null,
-  description       text,
-  description_class text,
-  creation_date     timestamp
+  name     varchar not null,
+  location varchar not null
 );
 
+alter table relhardware.company
+  owner to postgres;
 
-create table user_roles
+create table relhardware.item_types
 (
-  user_id bigint not null
-    constraint user_roles_users_id_fk
-      references users,
-  role_id bigint not null
-    constraint user_roles_roles_id_fk
-      references roles,
-  constraint user_roles_pkey
+  id   serial
+    constraint "PK_3600946a4e5a3a75d973b016132"
+      primary key,
+  name varchar not null
+);
+
+alter table relhardware.item_types
+  owner to postgres;
+
+create table relhardware.assignations
+(
+  id                 serial
+    constraint "PK_bd43902627f5fae57eda8b00033"
+      primary key,
+  "assignationDate"  timestamp default now() not null,
+  "modificationDate" timestamp,
+  note               text      default ''::text not null,
+  "userId"           integer                 not null
+    constraint "FK_5e28c9b24262c6407d050f7d05c"
+      references relhardware.users
+);
+
+alter table relhardware.assignations
+  owner to postgres;
+
+create table relhardware.items
+(
+  id                 serial
+    constraint "PK_ba5885359424c15ca6b9e79bcf6"
+      primary key,
+  "internalCode"     text,
+  model              text,
+  "serviceTag"       text,
+  company            text,
+  contract           text,
+  "dockingStation"   boolean   default false not null,
+  "productNumber"    text,
+  "macAddress"       text,
+  "creationDate"     timestamp default now() not null,
+  "modificationDate" timestamp,
+  "itemTypeId"       integer                 not null
+    constraint "FK_ba92d7032b89f4fd952899dbbd2"
+      references relhardware.item_types,
+  "idCompanyId"      integer                 not null
+    constraint "FK_6476fb0fdb137d9aa708f18748b"
+      references relhardware.company,
+  "assignationId"    integer
+    constraint "FK_67ca6b4b833aa2a836e3534a2f2"
+      references relhardware.assignations
+);
+
+alter table relhardware.items
+  owner to postgres;
+
+create table relhardware.user_roles
+(
+  user_id integer not null
+    constraint "FK_87b8888186ca9769c960e926870"
+      references relhardware.users
+      on update cascade on delete cascade,
+  role_id integer not null
+    constraint "FK_b23c65e50a758245a33ee35fda1"
+      references relhardware.roles,
+  constraint "PK_23ed6f04fe43066df08379fd034"
     primary key (user_id, role_id)
 );
 
-alter table user_roles
+alter table relhardware.user_roles
   owner to postgres;
 
+create index "IDX_87b8888186ca9769c960e92687"
+  on relhardware.user_roles (user_id);
 
-create table company
-(
-  id       bigserial not null
-    constraint company_pk
-      primary key,
-  name     text      not null,
-  location text
-);
+create index "IDX_b23c65e50a758245a33ee35fda"
+  on relhardware.user_roles (role_id);
 
-
--- UPDATE TABLE
-
-alter table items
-drop
-column site;
-
-alter table items
-  add id_company bigint;
-
-alter table items
-  add constraint items_company_id_fk
-    foreign key (id_company) references company (id);

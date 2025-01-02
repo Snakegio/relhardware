@@ -13,6 +13,8 @@ import { ItemType } from './item-type/entities/item-type.entity';
 import { ItemModule } from './item/item.module';
 import { Item } from './item/entities/item.entity';
 import { AssignationModule } from './assignation/assignation.module';
+import { PdfModule } from './pdf/pdf.module';
+import { Assignation } from './assignation/entities/assignation.entity';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { AssignationModule } from './assignation/assignation.module';
       password: 'relhardware',
       database: 'postgres',
       schema: 'relhardware',
-      entities: [User, Roles, Company, ItemType, Item],
+      entities: [User, Roles, Company, ItemType, Item, Assignation],
       synchronize: false,
     }),
     AuthModule,
@@ -37,6 +39,7 @@ import { AssignationModule } from './assignation/assignation.module';
     ItemTypeModule,
     ItemModule,
     AssignationModule,
+    PdfModule,
   ],
 })
 export class AppModule {}

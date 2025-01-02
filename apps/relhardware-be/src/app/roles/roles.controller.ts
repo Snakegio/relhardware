@@ -17,6 +17,7 @@ import { Roles } from '../auth/decorator/roles.decorator';
 import { ReadPermission } from '../auth/decorator/read-permission.decorator';
 import { PermissionGuard } from '../auth/guard/permission-guard.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { RoleResponseDto } from './dto/role-response.dto';
 
 @ApiBearerAuth()
 @Controller('roles')
@@ -26,25 +27,28 @@ export class RolesController {
 
   @Post()
   @Roles('admin')
-  create(@Body() createRoleDto: CreateRoleDto) {
+  create(@Body() createRoleDto: CreateRoleDto): Promise<RoleResponseDto> {
     return this.rolesService.create(createRoleDto);
   }
 
   @Get()
   @ReadPermission()
-  findAll() {
+  findAll(): Promise<RoleResponseDto[]> {
     return this.rolesService.findAll();
   }
 
   @Get(':id')
   @ReadPermission()
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<RoleResponseDto> {
     return this.rolesService.findOne(+id);
   }
 
   @Patch(':id')
   @Roles('admin')
-  update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateRoleDto: UpdateRoleDto
+  ): Promise<RoleResponseDto> {
     return this.rolesService.update(+id, updateRoleDto);
   }
 

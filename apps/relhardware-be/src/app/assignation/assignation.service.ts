@@ -3,7 +3,7 @@ import { CreateAssignationDto } from './dto/create-assignation.dto';
 import { UpdateAssignationDto } from './dto/update-assignation.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Assignation } from './entities/assignation.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { Item } from '../item/entities/item.entity';
 import { AssignationResponseDto } from './dto/assignation-response.dto';
@@ -34,19 +34,17 @@ export class AssignationService {
       );
     }
 
-    const item = await this.itemRepository.findOneBy({
-      id: createAssignationDto.itemId,
+    const items = await this.itemRepository.findBy({
+      id: In(createAssignationDto.itemIds),
     });
-    if (!item) {
-      throw new NotFoundException(
-        `Item with ID ${createAssignationDto.itemId} not found`
-      );
+    if (!items) {
+      throw new NotFoundException(`Item not found`);
     }
 
     const assignation = this.assignationRepository.create({
       ...createAssignationDto,
       user,
-      item,
+      items: items,
     });
 
     this.logger.debug('create assignation', JSON.stringify(assignation));
@@ -97,16 +95,14 @@ export class AssignationService {
       assignation.user = user;
     }
 
-    if (updateAssignationDto.itemId) {
-      const item = await this.itemRepository.findOneBy({
-        id: updateAssignationDto.itemId,
+    if (updateAssignationDto.itemIds) {
+      const items = await this.itemRepository.findBy({
+        id: In(updateAssignationDto.itemIds),
       });
-      if (!item) {
-        throw new NotFoundException(
-          `Item with ID ${updateAssignationDto.itemId} not found`
-        );
+      if (!items) {
+        throw new NotFoundException(`Item not found`);
       }
-      assignation.item = item;
+      assignation.items = items;
     }
 
     Object.assign(assignation, updateAssignationDto);

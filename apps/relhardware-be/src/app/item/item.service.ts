@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { ItemType } from '../item-type/entities/item-type.entity';
 import { Company } from '../company/entities/company.entity';
 import { plainToInstance } from 'class-transformer';
+import { ItemResponseDto } from './dto/item-response.dto';
 
 @Injectable()
 export class ItemService {
@@ -45,11 +46,14 @@ export class ItemService {
       idCompany: existingCompany,
     });
 
-    return await this.itemRepository.save(newItem);
+    return plainToInstance(
+      ItemResponseDto,
+      await this.itemRepository.save(newItem)
+    );
   }
 
-  findAll() {
-    return this.itemRepository.find();
+  async findAll() {
+    return plainToInstance(ItemResponseDto, await this.itemRepository.find());
   }
 
   async findOne(id: number) {
@@ -58,7 +62,7 @@ export class ItemService {
       throw new NotFoundException(`Item with ID ${id} not found`);
     }
     this.logger.debug('findOne item', item);
-    return plainToInstance(UpdateItemDto, item);
+    return plainToInstance(ItemResponseDto, item);
   }
 
   async update(id: number, updateItemDto: UpdateItemDto) {
@@ -89,7 +93,10 @@ export class ItemService {
     item.itemType = existingItemType;
     item.idCompany = existingCompany;
     this.logger.debug('update item', JSON.stringify(item));
-    return plainToInstance(UpdateItemDto, await this.itemRepository.save(item));
+    return plainToInstance(
+      ItemResponseDto,
+      await this.itemRepository.save(item)
+    );
   }
 
   async remove(id: number) {
