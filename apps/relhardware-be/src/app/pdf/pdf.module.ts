@@ -2,11 +2,10 @@ import { Module } from '@nestjs/common';
 import { PdfService } from './pdf.service';
 import { PdfController } from './pdf.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Item } from '../item/entities/item.entity';
-import { User } from '../users/entities/user.entity';
+import { Assignation } from '../assignation/entities/assignation.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Item, User])],
+  imports: [TypeOrmModule.forFeature([Assignation])],
   controllers: [PdfController],
   providers: [PdfService],
 })

@@ -1,11 +1,11 @@
 import {
   IAssignationDto,
   ICompanyDto,
-  IItemDto,
+  IItem,
   IItemTypeDto,
 } from '@relhardware/dto-shared';
 
-export class ItemResponseDto implements IItemDto {
+export class ItemResponseDto implements IItem {
   id: number;
   itemType: IItemTypeDto;
   internalCode: string;

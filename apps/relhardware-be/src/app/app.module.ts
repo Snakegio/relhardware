@@ -44,4 +44,3 @@ import { Assignation } from './assignation/entities/assignation.entity';
 })
 export class AppModule {}
 
-//todo giorgio indagare per generazione pdf nestjs-html-pdf
