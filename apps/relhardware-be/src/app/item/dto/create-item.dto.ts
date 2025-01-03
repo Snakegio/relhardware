@@ -6,7 +6,6 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
 
 export class CreateItemDto {
   @IsNotEmpty()
@@ -55,6 +54,5 @@ export class CreateItemDto {
 
   @IsNotEmpty()
   @IsNumber()
-  @Transform(({ obj }) => obj.id || null)
   idCompany: number;
 }

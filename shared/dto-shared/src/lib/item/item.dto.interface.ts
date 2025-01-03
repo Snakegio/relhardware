@@ -2,7 +2,7 @@ import { IItemTypeDto } from '../item-type/item-type.dto.interface';
 import { IAssignationDto } from '../assignation/assignation.dto.interface';
 import { ICompanyDto } from '../company/company.dto.interface';
 
-export interface IItemDto {
+export interface IItem {
   id: number;
   itemType: IItemTypeDto;
   internalCode: string;
