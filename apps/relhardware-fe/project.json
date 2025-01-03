@@ -59,7 +59,7 @@
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "options": {
-        "proxyConfig": "proxy.conf.json"
+        "proxyConfig": "apps/relhardware-fe/proxy.conf.json"
       },
       "configurations": {
         "production": {

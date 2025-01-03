@@ -1,37 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Panel } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
-import { Button, ButtonDirective } from 'primeng/button';
-import { Rating } from 'primeng/rating';
+import { Button } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { UserResponseDtoService } from '../../service/userDto.service';
-import { IUserDto } from '@relhardware/dto-shared';
-import { NgForOf } from '@angular/common';
+import { IUser } from '@relhardware/dto-shared';
 import { Chip } from 'primeng/chip';
-
 
 @Component({
   selector: 'app-user-management',
   templateUrl: './usermanagement.component.html',
-  imports: [
-    TableModule,
-    Button,
-    Tag,
-    Chip
-  ],
-  standalone: true
+  imports: [TableModule, Button, Tag, Chip],
+  standalone: true,
 })
 export class UserManagementComponent implements OnInit {
-  users!: IUserDto[];
+  users!: IUser[];
 
-  constructor(private usersService: UserResponseDtoService) {
-  }
+  constructor(private usersService: UserResponseDtoService) {}
 
   ngOnInit() {
-    this.usersService.getUserResponseDtos()
-      .subscribe(response => {
-        this.users = response;
-      });
+    this.usersService.getUserResponseDtos().subscribe((response) => {
+      this.users = response;
+    });
   }
 
   getRole(role: string) {

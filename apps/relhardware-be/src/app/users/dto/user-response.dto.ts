@@ -1,7 +1,7 @@
-import { IRoleDto, IUserDto } from '@relhardware/dto-shared';
+import { IRoleDto, IUser } from '@relhardware/dto-shared';
 import { Exclude } from 'class-transformer';
 
-export class UserResponseDto implements IUserDto {
+export class UserResponseDto implements IUser {
   id: number;
   name: string;
   surname: string;

@@ -1,10 +1,10 @@
-import {Route} from '@angular/router';
-import {LayoutComponent} from './components/layout/layout.component';
-import {DashboardComponent} from './components/dashboard/dashboard.component';
-import {NotfoundComponent} from './components/notfound/notfound.component';
-import {LoginComponent} from './components/auth/login/login.component';
+import { Route } from '@angular/router';
+import { LayoutComponent } from './components/layout/layout.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { NotfoundComponent } from './components/notfound/notfound.component';
+import { LoginComponent } from './components/auth/login/login.component';
 import { UserManagementComponent } from './components/user-management/usermanagement.component';
-import { AuthGuard } from './guards/app.guard';
+import { AuthGuard } from './guards/auth.guard';
 import { RolemanagementComponent } from './components/role-management/rolemanagement.component';
 
 export const appRoutes: Route[] = [
@@ -34,9 +34,7 @@ export const appRoutes: Route[] = [
         path: 'role-management',
         component: RolemanagementComponent,
       },
-
-
-    ]
+    ],
   },
   {
     path: '**',

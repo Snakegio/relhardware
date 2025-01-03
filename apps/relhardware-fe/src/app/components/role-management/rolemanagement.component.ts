@@ -1,17 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
-import { Tag } from 'primeng/tag';
-import { IRoleDto} from '@relhardware/dto-shared';
+import { IRoleDto } from '@relhardware/dto-shared';
 import { Chip } from 'primeng/chip';
 import { RolesDtoService } from '../../service/rolesDto.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
-import { Toast } from 'primeng/toast';
-import { AuthService } from '../../service/auth.service';
 import { NgIf } from '@angular/common';
-
 
 @Component({
   selector: 'app-role-management',
@@ -22,45 +18,42 @@ import { NgIf } from '@angular/common';
     Chip,
     ReactiveFormsModule,
     MessageModule,
-    Toast,
     NgIf,
-    FormsModule
+    FormsModul,
   ],
   providers: [RolesDtoService, MessageService],
-  standalone: true
+  standalone: true,
 })
 export class RolemanagementComponent implements OnInit {
   roles!: IRoleDtoEditable[];
   selectedRoleForm!: FormGroup;
 
-
-  constructor(private rolesService: RolesDtoService, private fb: FormBuilder,
-              private messageService: MessageService,
-              ) {
-
+  constructor(
+    private rolesService: RolesDtoService,
+    private fb: FormBuilder,
+    private messageService: MessageService
+  ) {
     // Form group da usare
     this.selectedRoleForm = this.fb.group({
       name: ['', Validators.required],
       read: [false],
       modify: [false],
       read_pdf: [false],
-      read_history: [false]
+      read_history: [false],
     });
-
   }
 
   ngOnInit() {
-    this.rolesService.getRolesDtos()
-      .subscribe(response => {
-        this.roles = response.map(role => ({
-          ...role,  // Mantieni tutte le proprietà esistenti del ruolo
-          isEditable: false  // Imposta isEditable a false di default
-        }));
-      });
+    this.rolesService.getRolesDtos().subscribe((response) => {
+      this.roles = response.map((role) => ({
+        ...role, // Mantieni tutte le proprietà esistenti del ruolo
+        isEditable: fals, // Imposta isEditable a false di default
+      }));
+    });
   }
 
-  modifyRow(role:IRoleDtoEditable) {
-    this.roles = this.roles.map(roleOr =>
+  modifyRow(role: IRoleDtoEditable) {
+    this.roles = this.roles.map((roleOr) =>
       roleOr.id === role.id ? { ...roleOr, isEditable: true } : roleOr
     );
     this.selectedRoleForm.patchValue({
@@ -70,30 +63,30 @@ export class RolemanagementComponent implements OnInit {
       read_pdf: role.read_pdf,
       read_history: role.read_history,
     });
-    console.log("check roles modified  {}",this.roles);
-
-
-   }
+    console.log('check roles modified  {}', this.roles);
+  }
 
   saveRow(row: IRoleDtoEditable) {
     if (this.selectedRoleForm.valid) {
       const updatedRole = this.selectedRoleForm.value;
       this.rolesService.patchRole(updatedRole.id, updatedRole).subscribe(() => {
-         this.messageService.add({ severity:'success', summary:'Role Updated', detail:updatedRole.name });
-         this.ngOnInit();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Role Updated',
+          detail: updatedRole.name,
+        });
+        this.ngOnInit();
       });
     } else {
-      this.messageService.add({ severity:'error', summary:'Login Failed', detail:'Invalid credentials!' });
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Login Failed',
+        detail: 'Invalid credentials!,
+      });
     }
-
   }
 
-  undo() {
-
-
-  }
-
-
+  undo() {}
 }
 
 

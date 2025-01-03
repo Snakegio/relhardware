@@ -6,8 +6,8 @@ import { appRoutes } from './app.routes';
 
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
-import { AuthInterceptor } from './interceptors/app.interceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { jwtInterceptor } from './interceptors/jwt.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,17 +18,10 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura,
         options: {
-          darkModeSelector: '.my-app-dark'
-        }
-      }
+          darkModeSelector: '.my-app-dark',
+        },
+      },
     }),
-    provideHttpClient( // registering interceptors
-     withInterceptorsFromDi()
-    ),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
-  ]
+    provideHttpClient(withInterceptors([jwtInterceptor]),
+  ],
 };

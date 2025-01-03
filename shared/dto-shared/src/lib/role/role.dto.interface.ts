@@ -1,4 +1,4 @@
-import { IUserDto } from '../user/user.dto.interface';
+import { IUser } from '../user/user.dto.interface';
 
 export interface IRoleDto {
   id: number;
@@ -7,5 +7,5 @@ export interface IRoleDto {
   modify: boolean;
   read_pdf: boolean;
   read_history: boolean;
-  users?: IUserDto[];
+  users?: IUser[];
 }

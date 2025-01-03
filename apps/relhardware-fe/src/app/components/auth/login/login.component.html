@@ -1,42 +1,32 @@
 <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
   <p-card header="Login" [style]="{ width: '360px' }">
     <div class="field">
-      <label for="email">Email</label>
-      <input
-        type="text"
-        pInputText
-        formControlName="email"
-        class="w-full"
-        name="email"
-        placeholder="Type your email"
-      />
-      <small
-        *ngIf="email.invalid && (email.dirty || email.touched)"
-        class="block p-error"
-      >
-        <div *ngIf="email.errors?.['required']">Email is required.</div>
-        <div *ngIf="email.errors?.['email']">Email should be valid</div>
-      </small>
+      <p-iftalabel>
+        <input pInputText id="email" formControlName="email" [fluid]="true" placeholder="Type your email"
+               [ngClass]="{'ng-dirty ng-invalid': loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)}"
+        />
+        <label for="email">Username</label>
+      </p-iftalabel>
+      @if (loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+        <p-message severity="error" variant="simple" size="small">Email is required</p-message>
+      } @else if (loginForm.get('email')?.hasError('email') && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+        <p-message severity="error" variant="simple" size="small">Email should be valid</p-message>
+      }
     </div>
     <div class="field">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        pInputText
-        formControlName="password"
-        class="w-full"
-        name="password"
-        placeholder="Type your password"
-      />
-      <small
-        *ngIf="password.invalid && (password.dirty || password.touched)"
-        class="block p-error"
-      >
-        <div *ngIf="password.errors?.['required']">Password is required.</div>
-      </small>
+      <p-iftalabel>
+        <p-password formControlName="password" id="password" placeholder="Type your password"
+                    [fluid]="true"
+                    [feedback]="false"
+                    [toggleMask]="true" />
+        <label for="password">Password</label>
+      </p-iftalabel>
+      @if (loginForm.get('password')?.hasError('required') && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)) {
+        <p-message severity="error" variant="simple" size="small">Password is required</p-message>
+      }
     </div>
     <p-button
-      label="SIGN IN"
+      label="Login"
       styleClass="w-full"
       [disabled]="loginForm.invalid"
       type="submit"

@@ -1,4 +1,4 @@
-import { IRoleDto, IUserDto } from '@relhardware/dto-shared';
+import { IRoleDto, IUser } from '@relhardware/dto-shared';
 
 export class RoleResponseDto implements IRoleDto {
   id: number;
@@ -7,5 +7,5 @@ export class RoleResponseDto implements IRoleDto {
   modify: boolean;
   read_pdf: boolean;
   read_history: boolean;
-  users?: IUserDto[];
+  users?: IUser[];
 }
