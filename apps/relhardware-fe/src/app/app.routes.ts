@@ -3,6 +3,7 @@ import {LayoutComponent} from './components/layout/layout.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {NotfoundComponent} from './components/notfound/notfound.component';
 import {LoginComponent} from './components/auth/login/login.component';
+import { UserManagementComponent } from './components/user-management/usermanagement.component';
 
 export const appRoutes: Route[] = [
   {
@@ -19,10 +20,15 @@ export const appRoutes: Route[] = [
     component: LayoutComponent,
     children: [
       {
-        path: 'dashboard', // esempio di percorso figlio
-        component: DashboardComponent, // componente figlio da visualizzare
+        path: 'dashboard',
+        component: DashboardComponent,
       },
-      // Add your routes here
+      {
+        path: 'user-management',
+        component: UserManagementComponent,
+      },
+
+
     ]
   },
   {
