@@ -16,6 +16,7 @@ async function bootstrap() {
     .setDescription('RelHardware API description')
     .setVersion('1.0')
     .addBearerAuth()
+
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
@@ -27,6 +28,17 @@ async function bootstrap() {
     })
   );
   const port = process.env.PORT || 3000;
+
+  // Permette al pakistano della 4200 di poter usare il tuo BE... u.u
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Accept, Authorization',
+  });
+
+
+
   await app.listen(port);
   Logger.log(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
