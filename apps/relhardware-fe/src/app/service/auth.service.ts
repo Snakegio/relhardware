@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
- import { Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IUserDto } from '@relhardware/dto-shared';
 import { environment } from '../../environments/environment';
 
 @Injectable({providedIn: 'root'})
-export class UserResponseDtoService {
+export class AuthService {
   private apiUrl = environment.apiUrl;
 
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-    getUserResponseDtos(): Observable<IUserDto[]> {
-        return this.http.get<IUserDto[]>(`${this.apiUrl}/users`);
+  login(email:string, password:string): Observable<any> {
+    return this.http.post<any>( `${this.apiUrl}/auth/login`, JSON.stringify({ email: email, password: password}));
 
-    }
+  }
 
 
 }

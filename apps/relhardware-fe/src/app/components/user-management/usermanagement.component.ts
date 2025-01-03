@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Panel } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
-import { Button } from 'primeng/button';
+import { Button, ButtonDirective } from 'primeng/button';
 import { Rating } from 'primeng/rating';
 import { Tag } from 'primeng/tag';
-import { UserResponseDto } from '../../../../../relhardware-be/src/app/users/dto/user-response.dto';
-import { UserResponseDtoService } from '../../service/userDto.service';
+ import { UserResponseDtoService } from '../../service/userDto.service';
+import { IUserDto } from '@relhardware/dto-shared';
 
 
 @Component({
@@ -16,12 +16,13 @@ import { UserResponseDtoService } from '../../service/userDto.service';
     TableModule,
     Button,
     Rating,
-    Tag
+    Tag,
+    ButtonDirective
   ],
   standalone: true
 })
 export class UserManagementComponent implements OnInit {
-  users!: UserResponseDto[];
+  users!: IUserDto[];
 
   constructor(private usersService: UserResponseDtoService) {}
 
@@ -31,5 +32,4 @@ export class UserManagementComponent implements OnInit {
         this.users = response;
       })
   }
-
 }
