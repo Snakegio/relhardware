@@ -1,0 +1,74 @@
+
+@defer {
+  <div class="card">
+    <p-table [value]="roles" [tableStyle]="{ 'min-width': '60rem' }">
+      <ng-template #caption>
+        <div class="flex items-center justify-between">
+          <span class="text-xl font-bold">Ruoli</span>
+          <p-button icon="pi pi-refresh" rounded raised />
+        </div>
+      </ng-template>
+      <ng-template #header>
+        <tr>
+          <th>Nome</th>
+          <th>Read</th>
+          <th>Modify</th>
+          <th>Read PDF</th>
+          <th>Write PDF</th>
+         </tr>
+      </ng-template>
+      <ng-template #body let-role>
+        <!-- Riga non modificabile -->
+        <tr *ngIf="!role.isEditable">
+          <td>{{ role.name }}</td>
+          <td>
+            <p-chip [icon]="role.read ? 'pi pi-check' : 'pi pi-times'" />
+          </td>
+          <td>
+            <p-chip [icon]="role.modify ? 'pi pi-check' : 'pi pi-times'" />
+          </td>
+          <td>
+            <p-chip [icon]="role.read_pdf ? 'pi pi-check' : 'pi pi-times'" />
+          </td>
+          <td>
+            <p-chip [icon]="role.read_history ? 'pi pi-check' : 'pi pi-times'" />
+          </td>
+          <td>
+            <p-button icon="pi pi-pencil" (click)="modifyRow(role.id)" />
+          </td>
+        </tr>
+
+        <!-- Riga modificabile -->
+        <tr *ngIf="role.isEditable">
+          <form [formGroup]="selectedRoleForm">
+            <td><input formControlName="name" /></td>
+            <td>
+              <p-chip *ngIf="selectedRoleForm.get('read')?.value" icon="pi pi-check"></p-chip>
+              <p-chip *ngIf="!selectedRoleForm.get('read')?.value" icon="pi pi-times"></p-chip>
+            </td>
+            <td>
+              <p-chip *ngIf="selectedRoleForm.get('modify')?.value" icon="pi pi-check"></p-chip>
+              <p-chip *ngIf="!selectedRoleForm.get('modify')?.value" icon="pi pi-times"></p-chip>
+            </td>
+            <td>
+              <p-chip *ngIf="selectedRoleForm.get('read_pdf')?.value" icon="pi pi-check"></p-chip>
+              <p-chip *ngIf="!selectedRoleForm.get('read_pdf')?.value" icon="pi pi-times"></p-chip>
+            </td>
+            <td>
+              <p-chip *ngIf="selectedRoleForm.get('read_history')?.value" icon="pi pi-check"></p-chip>
+              <p-chip *ngIf="!selectedRoleForm.get('read_history')?.value" icon="pi pi-times"></p-chip>
+            </td>
+            <td>
+              <p-button icon="pi pi-save" (click)="saveRow(role)"></p-button>
+              <p-button icon="pi pi-times" (click)="undo()"></p-button>
+            </td>
+          </form>
+        </tr>
+      </ng-template>
+
+      <ng-template #footer> In total there are {{ roles ? roles.length : 0 }} roles. </ng-template>
+    </p-table>
+  </div>
+} @placeholder {
+  <p>In caricamento</p>
+}

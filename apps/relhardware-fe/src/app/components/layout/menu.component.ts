@@ -66,7 +66,7 @@ export class MenuComponent implements OnInit {
               {
                 label: 'Ruoli',
                 icon: 'pi pi-fw pi-cog',
-                routerLink: ['/roles']
+                routerLink: ['/role-management']
               },
 
 

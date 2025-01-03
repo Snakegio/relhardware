@@ -11,7 +11,7 @@ export class UserResponseDtoService {
     constructor(private http: HttpClient) { }
 
     getUserResponseDtos(): Observable<IUserDto[]> {
-        return this.http.get<IUserDto[]>(`${this.apiUrl}/users`);
+        return this.http.get<IUserDto[]>(`${this.apiUrl}/users`,);
 
     }
 

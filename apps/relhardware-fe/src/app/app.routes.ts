@@ -4,6 +4,8 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {NotfoundComponent} from './components/notfound/notfound.component';
 import {LoginComponent} from './components/auth/login/login.component';
 import { UserManagementComponent } from './components/user-management/usermanagement.component';
+import { AuthGuard } from './guards/app.guard';
+import { RolemanagementComponent } from './components/role-management/rolemanagement.component';
 
 export const appRoutes: Route[] = [
   {
@@ -18,6 +20,7 @@ export const appRoutes: Route[] = [
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',
@@ -26,6 +29,10 @@ export const appRoutes: Route[] = [
       {
         path: 'user-management',
         component: UserManagementComponent,
+      },
+      {
+        path: 'role-management',
+        component: RolemanagementComponent,
       },
 
 
