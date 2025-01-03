@@ -122,10 +122,10 @@ export class PdfService {
       styles: {
         header: {
           fontSize: 16,
-          bold true,
+          bold:true,
         },
         subheader: {
-          fontSie: 10,
+          fontSize: 10,
         },
         tableHeader: {
           bold: true,
