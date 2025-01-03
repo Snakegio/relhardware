@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ItemType } from '../../item-type/entities/item-type.entity';
 import { Company } from '../../company/entities/company.entity';
+import { Assignation } from '../../assignation/entities/assignation.entity';
 
 @Entity('items')
 export class Item {
@@ -42,4 +43,7 @@ export class Item {
 
   @ManyToOne(() => Company, { nullable: false, eager: true }) // Relazione con company
   idCompany: Company;
+
+  @ManyToOne(() => Assignation, (assignation) => assignation.items)
+  assignation: Assignation;
 }

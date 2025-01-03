@@ -1,6 +1,7 @@
-import { CreateRoleDto } from '../../roles/dto/create-role.dto';
+import { IRoleDto, IUserDto } from '@relhardware/dto-shared';
+import { Exclude } from 'class-transformer';
 
-export class UserResponseDto {
+export class UserResponseDto implements IUserDto {
   id: number;
   name: string;
   surname: string;
@@ -9,6 +10,8 @@ export class UserResponseDto {
   email: string;
   enable: boolean;
   enableInternet: boolean;
+  @Exclude()
+  password: string;
   pdfReport: number | null;
-  roles: CreateRoleDto[];
+  roles: IRoleDto[];
 }

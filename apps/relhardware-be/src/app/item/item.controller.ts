@@ -11,6 +11,7 @@ import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { ItemResponseDto } from './dto/item-response.dto';
 
 @ApiBearerAuth()
 @Controller('item')
@@ -18,17 +19,17 @@ export class ItemController {
   constructor(private readonly itemService: ItemService) {}
 
   @Post()
-  create(@Body() createItemDto: CreateItemDto) {
+  create(@Body() createItemDto: CreateItemDto): Promise<ItemResponseDto> {
     return this.itemService.create(createItemDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<ItemResponseDto[]> {
     return this.itemService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<ItemResponseDto> {
     return this.itemService.findOne(+id);
   }
 

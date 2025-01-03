@@ -17,6 +17,7 @@ import { RolesGuard } from '../auth/guard/roles.guard';
 import { ReadPermission } from '../auth/decorator/read-permission.decorator';
 import { ModifyPermission } from '../auth/decorator/modify-permission.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { CompanyResponseDto } from './dto/company-response.dto';
 
 @ApiBearerAuth()
 @Controller('company')
@@ -26,24 +27,29 @@ export class CompanyController {
 
   @Post()
   @ReadPermission()
-  create(@Body() createCompanyDto: CreateCompanyDto) {
+  create(
+    @Body() createCompanyDto: CreateCompanyDto
+  ): Promise<CompanyResponseDto> {
     return this.companyService.create(createCompanyDto);
   }
 
   @Get()
   @ReadPermission()
-  findAll() {
+  findAll(): Promise<CompanyResponseDto[]> {
     return this.companyService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<CompanyResponseDto> {
     return this.companyService.findOne(+id);
   }
 
   @Patch(':id')
   @ModifyPermission()
-  update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCompanyDto: UpdateCompanyDto
+  ): Promise<CompanyResponseDto> {
     return this.companyService.update(+id, updateCompanyDto);
   }
 

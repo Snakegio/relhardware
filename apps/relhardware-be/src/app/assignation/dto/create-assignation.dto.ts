@@ -6,7 +6,7 @@ export class CreateAssignationDto {
   userId: number;
   @IsNotEmpty()
   @IsNumber()
-  itemId: number;
+  itemIds: number[];
   @IsOptional()
   @IsDate()
   creationDate?: Date;

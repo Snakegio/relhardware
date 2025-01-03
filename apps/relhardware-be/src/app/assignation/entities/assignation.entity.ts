@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Item } from '../../item/entities/item.entity';
 
@@ -10,8 +16,8 @@ export class Assignation {
   @ManyToOne(() => User, { nullable: false, eager: true })
   user: User;
 
-  @ManyToOne(() => Item, { nullable: false, eager: true })
-  item: Item;
+  @OneToMany(() => Item, (item) => item.assignation)
+  items: Item[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   assignationDate: Date;

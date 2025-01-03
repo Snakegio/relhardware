@@ -11,6 +11,7 @@ import { ItemTypeService } from './item-type.service';
 import { CreateItemTypeDto } from './dto/create-item-type.dto';
 import { UpdateItemTypeDto } from './dto/update-item-type.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { ItemTypeResponseDto } from './dto/item-type.response.dto';
 
 @ApiBearerAuth()
 @Controller('item-type')
@@ -18,12 +19,14 @@ export class ItemTypeController {
   constructor(private readonly itemTypeService: ItemTypeService) {}
 
   @Post()
-  create(@Body() createItemTypeDto: CreateItemTypeDto) {
+  create(
+    @Body() createItemTypeDto: CreateItemTypeDto
+  ): Promise<ItemTypeResponseDto> {
     return this.itemTypeService.create(createItemTypeDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<ItemTypeResponseDto[]> {
     return this.itemTypeService.findAll();
   }
 
@@ -36,7 +39,7 @@ export class ItemTypeController {
   update(
     @Param('id') id: string,
     @Body() updateItemTypeDto: UpdateItemTypeDto
-  ) {
+  ): Promise<ItemTypeResponseDto> {
     return this.itemTypeService.update(+id, updateItemTypeDto);
   }
 

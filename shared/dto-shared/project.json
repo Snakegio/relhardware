@@ -1,0 +1,32 @@
+{
+  "name": "dto-shared",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "shared/dto-shared/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/shared/dto-shared",
+        "main": "shared/dto-shared/src/index.ts",
+        "tsConfig": "shared/dto-shared/tsconfig.lib.json",
+        "assets": [
+          "shared/dto-shared/*.md"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "shared/dto-shared/jest.config.ts"
+      }
+    }
+  }
+}

@@ -11,6 +11,14 @@
         "command": "webpack-cli build",
         "args": [
           "node-env=production"
+        ],
+        "transformers": [
+          {
+            "name": "@nestjs/swagger/plugin",
+            "options": {
+              "introspectComments": true
+            }
+          }
         ]
       },
       "configurations": {
