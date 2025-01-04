@@ -11,7 +11,7 @@ export class RolesDtoService {
     return this.http.get<IRoleDto[]>(`api/roles`);
   }
 
-  patchRole(id: string, roleModified: IRoleDto): Observable<IRoleDto[]> {
-    return this.http.patch<IRoleDto[]>(`api/role/` + id, roleModified);
+  patchRole(id: number, roleModified: IRoleDto): Observable<IRoleDto[]> {
+    return this.http.patch<IRoleDto[]>(`api/roles/` + id, roleModified);
   }
 }

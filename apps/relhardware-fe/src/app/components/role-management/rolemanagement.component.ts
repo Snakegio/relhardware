@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { Button } from 'primeng/button';
+import { Button, ButtonDirective } from 'primeng/button';
 import { IRoleDto } from '@relhardware/dto-shared';
 import { Chip } from 'primeng/chip';
 import { RolesDtoService } from '../../service/rolesDto.service';
@@ -8,6 +8,11 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { NgIf } from '@angular/common';
+import { InputText } from 'primeng/inputtext';
+import { Ripple } from 'primeng/ripple';
+import { Select } from 'primeng/select';
+import { ToggleButton } from 'primeng/togglebutton';
+import { ToggleSwitch } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'app-role-management',
@@ -19,7 +24,11 @@ import { NgIf } from '@angular/common';
     ReactiveFormsModule,
     MessageModule,
     NgIf,
-    FormsModule
+    FormsModule,
+    InputText,
+    ButtonDirective,
+    Ripple,
+    ToggleSwitch
   ],
   providers: [RolesDtoService, MessageService],
   standalone: true
@@ -27,6 +36,8 @@ import { NgIf } from '@angular/common';
 export class RolemanagementComponent implements OnInit {
   roles = signal<IRoleDtoEditable[]>([]);
   selectedRoleForm!: FormGroup;
+  clonedRoles: { [s: string]: IRoleDto } = {};
+
 
   constructor(
     private rolesService: RolesDtoService,
@@ -63,24 +74,36 @@ export class RolemanagementComponent implements OnInit {
       );
   }
 
-  modifyRow(role: IRoleDtoEditable) {
+  onRowEditInit(role: IRoleDto) {
+    this.clonedRoles[role.id as number] = { ...role };
+  }
 
-    this.roles.update((roleMaps) => {
-      if (!roleMaps) return [];
+  onRowEditCancel(role: IRoleDto, index: number) {
+    this.clonedRoles[index] = this.clonedRoles[role.id as number];
+    delete this.clonedRoles[role.id as number];
+  }
 
-      return  roleMaps?.map((roleOriginal) =>
-        roleOriginal.id === role.id ? { ...roleOriginal, isEditable: true } : roleOriginal)
+
+  onRowEditSave(role: IRoleDto) {
+    this.rolesService.patchRole(role.id, role).subscribe({
+      next: () => {
+        delete this.clonedRoles[role.id as number];
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product is updated' });
+
+      },
+      error: () => {
+        this.clonedRoles[role.id as number] = { ...role };
+        this.messageService.add({ severity:'error', summary:'Error', detail:'Failed to update role' });
+      }
     })
 
-    this.selectedRoleForm.patchValue({
-      name: role.name,
-      read: role.read,
-      modify: role.modify,
-      read_pdf: role.read_pdf,
-      read_history: role.read_history
-    });
-    console.log('check roles modified  {}', this.roles());
+
+
+
+
   }
+
+
 
   saveRow(row: IRoleDtoEditable) {
     if (this.selectedRoleForm.valid) {
