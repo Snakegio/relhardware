@@ -14,16 +14,14 @@
   align-items: center;
 
   p-menubar {
-      width: 100%;
+    width: 100%;
 
-    .layout-topbar-logo {
-      padding-left: 20px;
-      padding-right: 135px;
+    .layout-topbar-logo:hover {
+      cursor: pointer;
     }
 
 
   }
-
 
 }
 
