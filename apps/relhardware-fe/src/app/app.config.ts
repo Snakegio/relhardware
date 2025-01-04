@@ -22,6 +22,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideHttpClient(withInterceptors([jwtInterceptor]),
+    provideHttpClient(withInterceptors([jwtInterceptor]))
   ],
 };

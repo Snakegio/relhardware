@@ -4,7 +4,7 @@ import { Button } from 'primeng/button';
 import { IRoleDto } from '@relhardware/dto-shared';
 import { Chip } from 'primeng/chip';
 import { RolesDtoService } from '../../service/rolesDto.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { NgIf } from '@angular/common';
@@ -19,10 +19,10 @@ import { NgIf } from '@angular/common';
     ReactiveFormsModule,
     MessageModule,
     NgIf,
-    FormsModul,
+    FormsModule
   ],
   providers: [RolesDtoService, MessageService],
-  standalone: true,
+  standalone: true
 })
 export class RolemanagementComponent implements OnInit {
   roles!: IRoleDtoEditable[];
@@ -39,7 +39,7 @@ export class RolemanagementComponent implements OnInit {
       read: [false],
       modify: [false],
       read_pdf: [false],
-      read_history: [false],
+      read_history: [false]
     });
   }
 
@@ -47,7 +47,7 @@ export class RolemanagementComponent implements OnInit {
     this.rolesService.getRolesDtos().subscribe((response) => {
       this.roles = response.map((role) => ({
         ...role, // Mantieni tutte le proprietà esistenti del ruolo
-        isEditable: fals, // Imposta isEditable a false di default
+        isEditable: false // Imposta isEditable a false di default
       }));
     });
   }
@@ -61,7 +61,7 @@ export class RolemanagementComponent implements OnInit {
       read: role.read,
       modify: role.modify,
       read_pdf: role.read_pdf,
-      read_history: role.read_history,
+      read_history: role.read_history
     });
     console.log('check roles modified  {}', this.roles);
   }
@@ -73,7 +73,7 @@ export class RolemanagementComponent implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Role Updated',
-          detail: updatedRole.name,
+          detail: updatedRole.name
         });
         this.ngOnInit();
       });
@@ -81,16 +81,17 @@ export class RolemanagementComponent implements OnInit {
       this.messageService.add({
         severity: 'error',
         summary: 'Login Failed',
-        detail: 'Invalid credentials!,
+        detail: 'Invalid credentials!',
       });
     }
   }
 
-  undo() {}
+  undo() {
+  }
 }
 
 
-interface IRoleDtoEditable extends IRoleDto{
+interface IRoleDtoEditable extends IRoleDto {
 
   isEditable: boolean;
 }

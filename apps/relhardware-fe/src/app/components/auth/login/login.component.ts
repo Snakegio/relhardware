@@ -39,7 +39,7 @@ import { Message } from 'primeng/message';
 export class LoginComponent {
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.require),
+    password: new FormControl('', Validators.required),
   });
   private router = inject(Router);
   private authService = inject(AuthService);
