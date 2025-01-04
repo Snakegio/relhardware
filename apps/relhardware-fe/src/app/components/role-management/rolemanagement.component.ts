@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { IRoleDto } from '@relhardware/dto-shared';
@@ -25,7 +25,7 @@ import { NgIf } from '@angular/common';
   standalone: true
 })
 export class RolemanagementComponent implements OnInit {
-  roles!: IRoleDtoEditable[];
+  roles = signal<IRoleDtoEditable[]>([]);
   selectedRoleForm!: FormGroup;
 
   constructor(
@@ -44,18 +44,34 @@ export class RolemanagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rolesService.getRolesDtos().subscribe((response) => {
-      this.roles = response.map((role) => ({
-        ...role, // Mantieni tutte le proprietà esistenti del ruolo
-        isEditable: false // Imposta isEditable a false di default
-      }));
-    });
+    this.rolesService.getRolesDtos()
+      .subscribe(
+        {
+          next: (response) => {
+            this.roles.set(response.map((role) => ({
+              ...role,
+              isEditable: false
+            })));
+          },
+          error: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Fetch Failed',
+            });
+          },
+        }
+      );
   }
 
   modifyRow(role: IRoleDtoEditable) {
-    this.roles = this.roles.map((roleOr) =>
-      roleOr.id === role.id ? { ...roleOr, isEditable: true } : roleOr
-    );
+
+    this.roles.update((roleMaps) => {
+      if (!roleMaps) return [];
+
+      return  roleMaps?.map((roleOriginal) =>
+        roleOriginal.id === role.id ? { ...roleOriginal, isEditable: true } : roleOriginal)
+    })
+
     this.selectedRoleForm.patchValue({
       name: role.name,
       read: role.read,
@@ -63,7 +79,7 @@ export class RolemanagementComponent implements OnInit {
       read_pdf: role.read_pdf,
       read_history: role.read_history
     });
-    console.log('check roles modified  {}', this.roles);
+    console.log('check roles modified  {}', this.roles());
   }
 
   saveRow(row: IRoleDtoEditable) {

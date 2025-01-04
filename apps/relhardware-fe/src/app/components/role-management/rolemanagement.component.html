@@ -1,7 +1,7 @@
 
 @defer {
   <div class="card">
-    <p-table [value]="roles" [tableStyle]="{ 'min-width': '60rem' }">
+    <p-table [value]="roles()" [tableStyle]="{ 'min-width': '60rem' }">
       <ng-template #caption>
         <div class="flex items-center justify-between">
           <span class="text-xl font-bold">Ruoli</span>
@@ -66,7 +66,7 @@
         </tr>
       </ng-template>
 
-      <ng-template #footer> In total there are {{ roles ? roles.length : 0 }} roles. </ng-template>
+      <ng-template #footer> In total there are {{ roles() ? roles().length : 0 }} roles. </ng-template>
     </p-table>
   </div>
 } @placeholder {
