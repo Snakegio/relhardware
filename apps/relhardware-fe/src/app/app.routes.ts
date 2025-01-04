@@ -6,6 +6,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { UserManagementComponent } from './components/user-management/usermanagement.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RolemanagementComponent } from './components/role-management/rolemanagement.component';
+import { ItemTypesComponent } from './components/item-types/item-types.component';
 
 export const appRoutes: Route[] = [
   {
@@ -34,6 +35,10 @@ export const appRoutes: Route[] = [
         path: 'role-management',
         component: RolemanagementComponent,
       },
+      {
+        path: 'item-types',
+        component: ItemTypesComponent
+      }
     ],
   },
   {

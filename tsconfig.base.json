@@ -15,9 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@relhardware/dto-shared": [
-        "shared/dto-shared/src/index.ts"
-      ]
+      "@relhardware/dto-shared": ["shared/dto-shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
