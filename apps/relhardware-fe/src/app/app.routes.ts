@@ -7,6 +7,8 @@ import { UserManagementComponent } from './components/user-management/usermanage
 import { AuthGuard } from './guards/auth.guard';
 import { RolemanagementComponent } from './components/role-management/rolemanagement.component';
 import { ItemTypesComponent } from './components/item-types/item-types.component';
+import { LocationManagementComponent } from './components/location-management/locationmanagement.component';
+import { AllocationManagementComponent } from './components/allocation-management/allocationmanagement.component';
 
 export const appRoutes: Route[] = [
   {
@@ -38,6 +40,15 @@ export const appRoutes: Route[] = [
       {
         path: 'item-types',
         component: ItemTypesComponent
+      },
+      {
+        path: 'item-location',
+        component: LocationManagementComponent
+      }
+      ,
+      {
+        path: 'item-allocation',
+        component: AllocationManagementComponent
       }
     ],
   },

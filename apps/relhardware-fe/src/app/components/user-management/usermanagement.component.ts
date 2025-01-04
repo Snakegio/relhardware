@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { Tag } from 'primeng/tag';
@@ -13,7 +13,10 @@ import { Chip } from 'primeng/chip';
   standalone: true,
 })
 export class UserManagementComponent implements OnInit {
-  users!: IUser[];
+
+  users = signal<IUser[]>([]);
+
+
 
   constructor(private usersService: UserResponseDtoService) {}
 
@@ -23,7 +26,7 @@ export class UserManagementComponent implements OnInit {
 
   refreshData() {
     this.usersService.getUserResponseDtos().subscribe((response) => {
-      this.users = response;
+      this.users.set(response);
     });
   }
 

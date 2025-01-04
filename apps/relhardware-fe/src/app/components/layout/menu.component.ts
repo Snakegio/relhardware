@@ -48,12 +48,12 @@ export class MenuComponent implements OnInit {
           {
             label: 'Lista ubicazioni',
             icon: 'pi pi-fw pi-map-marker',
-            routerLink: ['/item-types'],
+            routerLink: ['/item-location'],
           },
           {
             label: 'Lista allocazioni',
             icon: 'pi pi-fw pi-users',
-            routerLink: ['/item-types'],
+            routerLink: ['/item-allocation'],
           },
         ],
       },

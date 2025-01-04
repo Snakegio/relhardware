@@ -7,12 +7,12 @@ import { IUser } from '@relhardware/dto-shared';
 import { Chip } from 'primeng/chip';
 
 @Component({
-  selector: 'app-user-management',
-  templateUrl: './usermanagement.component.html',
+  selector: 'app-location-management',
+  templateUrl: './locationmanagement.component.html',
   imports: [TableModule, Button, Tag, Chip],
   standalone: true,
 })
-export class UserManagementComponent implements OnInit {
+export class LocationManagementComponent implements OnInit {
   users!: IUser[];
 
   constructor(private usersService: UserResponseDtoService) {}
