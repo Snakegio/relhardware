@@ -18,9 +18,17 @@ export class UserManagementComponent implements OnInit {
   constructor(private usersService: UserResponseDtoService) {}
 
   ngOnInit() {
+   this.refreshData();
+  }
+
+  refreshData() {
     this.usersService.getUserResponseDtos().subscribe((response) => {
       this.users = response;
     });
+  }
+
+  doRefresh() {
+    this.refreshData();
   }
 
   getRole(role: string) {

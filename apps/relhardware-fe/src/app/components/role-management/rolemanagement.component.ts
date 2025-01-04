@@ -55,6 +55,10 @@ export class RolemanagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.refreshData();
+  }
+
+  refreshData() {
     this.rolesService.getRolesDtos()
       .subscribe(
         {
@@ -72,6 +76,10 @@ export class RolemanagementComponent implements OnInit {
           },
         }
       );
+  }
+
+  doRefresh() {
+    this.refreshData();
   }
 
   onRowEditInit(role: IRoleDto) {
