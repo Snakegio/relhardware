@@ -1,7 +1,7 @@
 <div class="layout-topbar">
   <p-menubar [model]="items">
     <ng-template pTemplate="start">
-      <img ngSrc="/images/logo-white.png" height="50" class="layout-topbar-logo mr-2" alt="brand logo" width="140">
+      <img [routerLink]="'/'" ngSrc="/images/logo-white.png" height="50" class="layout-topbar-logo mr-2" alt="brand logo" width="140">
     </ng-template>
     <ng-template pTemplate="end">
       <p-menu #profileMenu [popup]="true" [model]="profileMenuItems"></p-menu>
