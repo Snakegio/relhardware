@@ -10,12 +10,12 @@ VALUES (2, 'user', true, false, true, false);
 
 --user Email should be lowercase
 -- user base
-INSERT INTO users (id, name, surname, creation_date, modification_date, email, password, enable, pdf_report)
+INSERT INTO users (id, name, surname, creation_date, modification_date, email, password, enable)
 VALUES (1, 'admin', 'admin', now(), now(), 'admin@relatech.com',
-        '$2a$10$B5..YfwiNY1QGeAr.x5fjenEUwIHE1d4In0cOjysKy4YhYNRe6gfC', true, null);
-INSERT INTO users (id, name, surname, creation_date, modification_date, email, password, enable, pdf_report)
+        '$2a$10$B5..YfwiNY1QGeAr.x5fjenEUwIHE1d4In0cOjysKy4YhYNRe6gfC', true);
+INSERT INTO users (id, name, surname, creation_date, modification_date, email, password, enable)
 VALUES (2, 'user', 'user', now(), now(), 'user@relatech.com',
-        '$2a$10$B5..YfwiNY1QGeAr.x5fjenEUwIHE1d4In0cOjysKy4YhYNRe6gfC', true, null);
+        '$2a$10$B5..YfwiNY1QGeAr.x5fjenEUwIHE1d4In0cOjysKy4YhYNRe6gfC', true);
 
 SELECT setval('users_id_seq', (SELECT max(id) FROM users));
 

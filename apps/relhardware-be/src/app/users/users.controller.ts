@@ -6,46 +6,39 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-import { PermissionGuard } from '../auth/guard/permission-guard.service';
-import { RolesGuard } from '../auth/guard/roles.guard';
-import { Roles } from '../auth/decorator/roles.decorator';
-import { ReadPermission } from '../auth/decorator/read-permission.decorator';
 import { UserResponseDto } from './dto/user-response.dto';
-import { ModifyPermission } from '../auth/decorator/modify-permission.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Roles } from 'nest-keycloak-connect';
 
 @ApiBearerAuth()
 @Controller('users')
-@UseGuards(JwtAuthGuard, PermissionGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Roles('admin')
+  @Roles({ roles: ['realm:ADMIN'] })
   create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
-  @ModifyPermission()
+  @Roles({ roles: ['realm:MODIFY'] })
   findAll(): Promise<UserResponseDto[]> {
     return this.usersService.findAll();
   }
 
   @Get(':id')
-  @ReadPermission()
+  @Roles({ roles: ['realm:READ'] })
   findOne(@Param('id') id: string): Promise<UserResponseDto> {
     return this.usersService.findOne(+id);
   }
 
   @Patch(':id')
-  @Roles('admin')
+  @Roles({ roles: ['realm:ADMIN'] })
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto
@@ -54,7 +47,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @Roles({ roles: ['realm:ADMIN'] })
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }

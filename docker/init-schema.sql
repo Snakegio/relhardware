@@ -30,9 +30,7 @@ create table relhardware.users
     constraint "UQ_97672ac88f789774dd47f7c8be3"
       unique,
   password          varchar                 not null,
-  enable            boolean   default false not null,
-  enable_internet   boolean   default false not null,
-  pdf_report        bigint
+  enable            boolean   default false not null
 );
 
 alter table relhardware.users

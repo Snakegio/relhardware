@@ -13,7 +13,7 @@ import { Button, ButtonModule } from 'primeng/button';
 import { Menubar } from 'primeng/menubar';
 import { PopoverModule } from 'primeng/popover';
 import { Menu } from 'primeng/menu';
-import { AuthService } from '../../service/auth.service';
+import Keycloak from 'keycloak-js';
 
 @Component({
   selector: 'app-topbar',
@@ -34,7 +34,7 @@ import { AuthService } from '../../service/auth.service';
 export class TopbarComponent implements OnInit {
   items!: MenuItem[];
   profileMenuItems!: MenuItem[];
-  private authService = inject(AuthService);
+  private readonly keycloak = inject(Keycloak);
   private router = inject(Router);
 
   @ViewChild('menubutton') menuButton!: ElementRef;
@@ -64,7 +64,7 @@ export class TopbarComponent implements OnInit {
   }
 
   private logout(): void {
-    this.authService.logout();
+    this.keycloak.logout({redirectUri:"http://localhost:4200"});
     this.router.navigate(['/']);
   }
 }

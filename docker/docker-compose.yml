@@ -14,6 +14,25 @@ services:
       - db_data:/var/lib/postgresql/data # Volume per la persistenza dei dati
       - ./init-schema.sql:/docker-entrypoint-initdb.d/10-init-schema.sql
       - ./init-data.sql:/docker-entrypoint-initdb.d/20-init-data.sql
-
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: db
+      KC_DB_URL_DATABASE: postgres
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: relhardware
+      KC_HOSTNAME: localhost
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    command:
+      - start-dev
+      - --import-realm
+    volumes:
+      - ./keycloak-config:/opt/keycloak/data/import
 volumes:
   db_data: # Definisce il volume nominato

@@ -39,12 +39,6 @@ export class User {
   @Column({ type: 'boolean', default: false })
   enable: boolean;
 
-  @Column({ name: 'enable_internet', type: 'boolean', default: false })
-  enableInternet: boolean;
-
-  @Column({ name: 'pdf_report', type: 'bigint', nullable: true })
-  pdfReport: number | null;
-
   @ManyToMany(() => Roles, (role) => role.users, { eager: true, cascade: true })
   @JoinTable({
     name: 'user_roles', // Nome della tabella di join

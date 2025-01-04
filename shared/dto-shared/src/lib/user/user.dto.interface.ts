@@ -8,8 +8,6 @@ export interface IUser {
   modificationDate?: Date;
   email: string;
   enable: boolean;
-  enableInternet?: boolean;
   password?: string;
-  pdfReport?: number;
   roles?: IRoleDto[];
 }

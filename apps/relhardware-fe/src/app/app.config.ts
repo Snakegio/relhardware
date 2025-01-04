@@ -6,11 +6,15 @@ import { appRoutes } from './app.routes';
 
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { includeBearerTokenInterceptor } from 'keycloak-angular';
+
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { jwtInterceptor } from './interceptors/jwt.interceptor';
+import { provideKeycloakAngular } from './keycloak.config';
+import { loggingInterceptor } from './interceptors/logging.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideKeycloakAngular(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideAnimationsAsync(),
@@ -22,6 +26,6 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
-    provideHttpClient(withInterceptors([jwtInterceptor]))
+    provideHttpClient(withInterceptors([includeBearerTokenInterceptor,loggingInterceptor])),
   ],
 };

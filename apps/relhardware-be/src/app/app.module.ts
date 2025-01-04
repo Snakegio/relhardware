@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { Roles } from './roles/entities/roles.entity';
@@ -15,6 +14,15 @@ import { Item } from './item/entities/item.entity';
 import { AssignationModule } from './assignation/assignation.module';
 import { PdfModule } from './pdf/pdf.module';
 import { Assignation } from './assignation/entities/assignation.entity';
+import {
+  AuthGuard,
+  KeycloakConnectModule,
+  ResourceGuard,
+  RoleGuard,
+} from 'nest-keycloak-connect';
+import { KeycloakConfigService } from './keycloak-config/keycloak-config.service';
+import { KeycloakConfigModule } from './keycloak-config/keycloak-config.module';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -29,7 +37,6 @@ import { Assignation } from './assignation/entities/assignation.entity';
       entities: [User, Roles, Company, ItemType, Item, Assignation],
       synchronize: false,
     }),
-    AuthModule,
     UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
@@ -40,7 +47,20 @@ import { Assignation } from './assignation/entities/assignation.entity';
     ItemModule,
     AssignationModule,
     PdfModule,
+    KeycloakConnectModule.registerAsync({
+      useExisting: KeycloakConfigService,
+      imports: [KeycloakConfigModule],
+    }),
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
+    },
   ],
 })
 export class AppModule {}
-

@@ -1,23 +1,11 @@
-import {
-  Body,
-  Controller,
-  Header,
-  Post,
-  Req,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Header, Post, Req, Res } from '@nestjs/common';
 import { PdfService } from './pdf.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-import { PermissionGuard } from '../auth/guard/permission-guard.service';
-import { RolesGuard } from '../auth/guard/roles.guard';
 import { CreatePdfDto } from './dto/create-pdf.dto';
 import { Response } from 'express';
 
 @Controller('pdf')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard, PermissionGuard, RolesGuard)
 export class PdfController {
   constructor(private readonly pdfService: PdfService) {}
 

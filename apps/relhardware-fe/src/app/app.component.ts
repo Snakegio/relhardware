@@ -23,12 +23,6 @@ import { MessageService } from 'primeng/api';
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [MessageService]
+  providers: [MessageService],
 })
-export class AppComponent {
-  private primeng = inject(PrimeNG);
-
-  ngOnInit(): void {
-    console.log(this.primeng.theme());
-  }
-}
+export class AppComponent {}

@@ -9,9 +9,7 @@ export class UserResponseDto implements IUser {
   modificationDate: Date;
   email: string;
   enable: boolean;
-  enableInternet: boolean;
   @Exclude()
   password: string;
-  pdfReport: number | null;
   roles: IRoleDto[];
 }

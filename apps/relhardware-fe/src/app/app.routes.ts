@@ -2,28 +2,18 @@ import { Route } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import { LoginComponent } from './components/auth/login/login.component';
 import { UserManagementComponent } from './components/user-management/usermanagement.component';
-import { AuthGuard } from './guards/auth.guard';
 import { RolemanagementComponent } from './components/role-management/rolemanagement.component';
 import { ItemTypesComponent } from './components/item-types/item-types.component';
 import { LocationManagementComponent } from './components/location-management/locationmanagement.component';
 import { AllocationManagementComponent } from './components/allocation-management/allocationmanagement.component';
+import { createAuthGuard } from 'keycloak-angular';
 
 export const appRoutes: Route[] = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: '',
     component: LayoutComponent,
-    canActivate: [AuthGuard],
+    canActivate: [createAuthGuard],
     children: [
       {
         path: 'dashboard',
@@ -39,17 +29,16 @@ export const appRoutes: Route[] = [
       },
       {
         path: 'item-types',
-        component: ItemTypesComponent
+        component: ItemTypesComponent,
       },
       {
         path: 'item-location',
-        component: LocationManagementComponent
-      }
-      ,
+        component: LocationManagementComponent,
+      },
       {
         path: 'item-allocation',
-        component: AllocationManagementComponent
-      }
+        component: AllocationManagementComponent,
+      },
     ],
   },
   {
