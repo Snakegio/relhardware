@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IAssignationDto } from '@relhardware/dto-shared';
-import { Item } from '../../../../relhardware-be/src/app/item/entities/item.entity';
-
 @Injectable()
 export class AssignationService {
   private http = inject(HttpClient);
