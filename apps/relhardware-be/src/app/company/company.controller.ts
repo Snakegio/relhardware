@@ -20,7 +20,7 @@ export class CompanyController {
   constructor(private readonly companyService: CompanyService) {}
 
   @Post()
-  @Roles({ roles: ['READ'] })
+  @Roles({ roles: ['realm:READ'] })
   create(
     @Body() createCompanyDto: CreateCompanyDto
   ): Promise<CompanyResponseDto> {
@@ -28,7 +28,7 @@ export class CompanyController {
   }
 
   @Get()
-  @Roles({ roles: ['READ'] })
+  @Roles({ roles: ['realm:READ'] })
   findAll(): Promise<CompanyResponseDto[]> {
     return this.companyService.findAll();
   }
@@ -39,7 +39,7 @@ export class CompanyController {
   }
 
   @Patch(':id')
-  @Roles({ roles: ['MODIFY'] })
+  @Roles({ roles: ['realm:MODIFY'] })
   update(
     @Param('id') id: string,
     @Body() updateCompanyDto: UpdateCompanyDto
@@ -48,7 +48,7 @@ export class CompanyController {
   }
 
   @Delete(':id')
-  @Roles({ roles: ['MODIFY'] })
+  @Roles({ roles: ['realm:MODIFY'] })
   remove(@Param('id') id: string) {
     return this.companyService.remove(+id);
   }

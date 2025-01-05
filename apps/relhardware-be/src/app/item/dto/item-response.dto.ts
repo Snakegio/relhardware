@@ -2,12 +2,12 @@ import {
   IAssignationDto,
   ICompanyDto,
   IItem,
-  IItemTypeDto,
+  IItemType,
 } from '@relhardware/dto-shared';
 
 export class ItemResponseDto implements IItem {
   id: number;
-  itemType: IItemTypeDto;
+  itemType: IItemType;
   internalCode: string;
   model: string;
   serviceTag: string;

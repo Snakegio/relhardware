@@ -24,7 +24,6 @@ export const provideKeycloakAngular = () =>
       onLoad: 'login-required',
       silentCheckSsoRedirectUri:
         window.location.origin + '/silent-check-sso.html',
-      redirectUri: window.location.origin + '/',
     },
     features: [
       withAutoRefreshToken({

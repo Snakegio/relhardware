@@ -1,6 +1,6 @@
-import { IItemTypeDto } from '@relhardware/dto-shared';
+import { IItemType } from '@relhardware/dto-shared';
 
-export class ItemTypeResponseDto implements IItemTypeDto {
+export class ItemTypeResponseDto implements IItemType {
   id: number;
   name: string;
 }
