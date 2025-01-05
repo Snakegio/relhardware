@@ -1,17 +1,24 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  model,
+  OnInit,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemTypeService } from '../../service/item-type.service';
 import { IItemType } from '@relhardware/dto-shared';
 import { TableModule } from 'primeng/table';
 import { InputText } from 'primeng/inputtext';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { Ripple } from 'primeng/ripple';
 import { Toolbar } from 'primeng/toolbar';
-import { Dialog } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { CreateItemTypesComponent } from '../dialog/create-item-types/create-item-types.component';
 
 @Component({
   selector: 'app-item-types',
@@ -23,21 +30,19 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     Ripple,
     Button,
     Toolbar,
-    Dialog,
     ToastModule,
     ConfirmPopupModule,
+    CreateItemTypesComponent,
   ],
-  providers: [MessageService, ItemTypeService, ConfirmationService],
+  providers: [ItemTypeService, ConfirmationService],
   templateUrl: './item-types.component.html',
-  styleUrl: './item-types.component.css',
 })
 export class ItemTypesComponent implements OnInit {
   private confirmationService = inject(ConfirmationService);
   private itemTypeService = inject(ItemTypeService);
   private messageService = inject(MessageService);
   items = signal<IItemType[]>([]);
-  visible = false;
-  itemType = '';
+  isDialogVisible = model(false);
 
   ngOnInit() {
     this.updateData();
@@ -58,19 +63,7 @@ export class ItemTypesComponent implements OnInit {
   }
 
   openNew() {
-    this.visible = true;
-  }
-
-  onSubmit(myForm: NgForm) {
-    this.itemTypeService.createItemType(this.itemType).subscribe(() => {
-      this.updateData();
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Item Type Created',
-      });
-      this.visible = false;
-      myForm.reset();
-    });
+    this.isDialogVisible.set(true);
   }
 
   deleteElem(event: Event, itemType: IItemType) {

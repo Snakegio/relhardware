@@ -7,6 +7,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NgClass } from '@angular/common';
 import { LayoutService } from '../../service/layout.service';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-layout',
@@ -18,6 +19,7 @@ import { LayoutService } from '../../service/layout.service';
     TopbarComponent,
     RouterOutlet,
     NgClass,
+    Toast,
   ],
 })
 export class LayoutComponent {
