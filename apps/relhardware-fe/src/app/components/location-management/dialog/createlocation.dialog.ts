@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, input, OnInit, Output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  model, output
+} from '@angular/core';
 import { ICompanyDto } from '@relhardware/dto-shared';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
@@ -32,8 +37,9 @@ export class CreatelocationDialogComponent {
   messageService = inject(MessageService);
 
 
-  isVisible = input.required<boolean>();
-  @Output() visibilityChange = new EventEmitter<boolean>();
+  visible = model<boolean>(true);
+  refreshData = output<void>();
+
 
   companyForm = new FormGroup({
     id: new FormControl(),
@@ -44,14 +50,9 @@ export class CreatelocationDialogComponent {
   });
 
   undoOperation() {
-    this.visibilityChange.emit(false);
+    this.visible.set(false);
   }
 
-  updateForm() {
-    // Update form data
-
-    this.visibilityChange.emit(false);
-  }
   saveOperation() {
       if(this.companyForm.valid) {
         const companyToSave = <ICompanyDto> this.companyForm.getRawValue();
@@ -63,7 +64,9 @@ export class CreatelocationDialogComponent {
               severity:'success',
               summary: 'Company Created'
             });
-            this.visibilityChange.emit(false);
+            this.refreshData.emit();
+            this.companyForm.reset();
+            this.undoOperation();
           },
           error: () => {
             this.messageService.add({

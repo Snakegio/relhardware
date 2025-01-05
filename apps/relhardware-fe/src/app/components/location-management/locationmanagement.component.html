@@ -1,5 +1,13 @@
 
 @defer {
+  <p-toolbar styleClass="mb-6">
+    <ng-template #start>
+      <p-button label="Create" icon="pi pi-plus"  (onClick)="createCompany()" />
+    </ng-template>
+
+  </p-toolbar>
+
+
   <div class="card">
 
     <p-dataview #dv [value]="companies()">
@@ -10,8 +18,7 @@
               <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
             </ng-template>
           </p-selectbutton>
-          <p-button label="Create" icon="pi pi-create"  (onClick)="createCompany()" />
-          <app-location-dialog [isVisible]="isVisible()" (visibilityChange)="closedModal()"></app-location-dialog>
+
         </div>
       </ng-template>
 
@@ -106,6 +113,9 @@
     </p-dataview>
 
   </div>
+
+
+  <app-location-dialog [(visible)]="isDialogVisible" (refreshData)="refreshData()"></app-location-dialog>
 } @placeholder {
   <p>In caricamento</p>
 }

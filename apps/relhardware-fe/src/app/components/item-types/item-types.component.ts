@@ -32,10 +32,11 @@ import { CreateItemTypesComponent } from '../dialog/create-item-types/create-ite
     Toolbar,
     ToastModule,
     ConfirmPopupModule,
-    CreateItemTypesComponent,
+    CreateItemTypesComponent
   ],
   providers: [ItemTypeService, ConfirmationService],
   templateUrl: './item-types.component.html',
+  standalone: true
 })
 export class ItemTypesComponent implements OnInit {
   private confirmationService = inject(ConfirmationService);

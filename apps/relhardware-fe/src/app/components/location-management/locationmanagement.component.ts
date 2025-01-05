@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { Tag } from 'primeng/tag';
 import { ICompanyDto } from '@relhardware/dto-shared';
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { SelectButton } from 'primeng/selectbutton';
 import { NgClass, NgForOf } from '@angular/common';
 import { CreatelocationDialogComponent } from './dialog/createlocation.dialog';
+import { Toolbar } from 'primeng/toolbar';
 
 @Component({
   selector: 'app-location-management',
@@ -22,6 +23,7 @@ import { CreatelocationDialogComponent } from './dialog/createlocation.dialog';
     NgClass,
     NgForOf,
     CreatelocationDialogComponent,
+    Toolbar
   ],
   providers: [CompanyService, MessageService],
   standalone: true,
@@ -33,13 +35,15 @@ export class LocationManagementComponent implements OnInit {
 
   layout = 'grid';
   options = ['list', 'grid'];
-  isVisible = signal<boolean>(false);
+  isDialogVisible = model<boolean>(false);
 
-  closedModal() {
-    this.isVisible.set(false);
-  }
+
 
   ngOnInit() {
+    this.refreshData();
+  }
+
+  refreshData() {
     this.assignationService.getCompanies().subscribe({
       next: (data) => this.companies.set(data),
       error: (err) =>
@@ -50,7 +54,8 @@ export class LocationManagementComponent implements OnInit {
     });
   }
 
+
   createCompany() {
-    this.isVisible.set(true);
+    this.isDialogVisible.set(true);
   }
 }

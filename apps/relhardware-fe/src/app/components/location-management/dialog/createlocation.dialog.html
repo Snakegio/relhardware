@@ -1,6 +1,6 @@
-<p-dialog header="Crea filiale" [modal]="true" [visible]="isVisible()" [style]="{ width: '50rem' }"
-          [closeOnEscape]="true" closable="false">
-  <form [formGroup]="companyForm" (ngSubmit)="updateForm()">
+<p-dialog header="Crea filiale" [modal]="true" [(visible)]="visible" [style]="{ width: '40rem' }"
+          [closeOnEscape]="true" closable="false" (onHide)="undoOperation()">
+  <form [formGroup]="companyForm" (ngSubmit)="saveOperation()">
 
     <div class="field">
       <p-iftalabel>
@@ -26,6 +26,9 @@
         />
         <label for="city">Nome della città</label>
       </p-iftalabel>
+      @if (companyForm.get('city')?.touched && companyForm.get('city')?.hasError('required')) {
+        <p-message severity="error" variant="simple" size="small">Il nome della città è richiesto</p-message>
+      }
     </div>
     <div class="field">
       <p-iftalabel>
@@ -36,7 +39,9 @@
     </div>
     <div class="flex justify-end gap-2">
       <p-button label="Cancel" severity="secondary" (click)="undoOperation()" />
-      <p-button label="Save" (click)="saveOperation()" />
+      <p-button label="Save"
+                type="submit"
+                [disabled]="companyForm.invalid" />
     </div>
 
 
