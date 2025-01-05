@@ -1,8 +1,11 @@
 import {
   Component,
+  computed,
   ElementRef,
   inject,
   OnInit,
+  signal,
+  Signal,
   ViewChild,
 } from '@angular/core';
 import { MenuItem, PrimeTemplate } from 'primeng/api';
@@ -14,6 +17,7 @@ import { Menubar } from 'primeng/menubar';
 import { PopoverModule } from 'primeng/popover';
 import { Menu } from 'primeng/menu';
 import Keycloak from 'keycloak-js';
+import { IUser } from '@relhardware/dto-shared';
 
 @Component({
   selector: 'app-topbar',
@@ -36,6 +40,12 @@ export class TopbarComponent implements OnInit {
   profileMenuItems!: MenuItem[];
   private readonly keycloak = inject(Keycloak);
   private router = inject(Router);
+  user = signal<IUser | undefined>(undefined);
+  username: Signal<string | undefined> = computed(() => {
+    if (this.user()?.firstName || this.user()?.lastName)
+      return `${this.user()?.firstName} ${this.user()?.lastName}`;
+    else return undefined;
+  });
 
   @ViewChild('menubutton') menuButton!: ElementRef;
 
@@ -45,7 +55,12 @@ export class TopbarComponent implements OnInit {
 
   constructor(public layoutService: LayoutService) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    if (this.keycloak?.authenticated) {
+      const profile = await this.keycloak.loadUserProfile();
+      console.log('User profile:', profile);
+      this.user.set({...profile});
+    }
     this.items = [
       {
         icon: 'pi pi-bars',
@@ -64,7 +79,8 @@ export class TopbarComponent implements OnInit {
   }
 
   private logout(): void {
-    this.keycloak.logout({redirectUri:"http://localhost:4200"});
+    this.keycloak.logout({ redirectUri: 'http://localhost:4200' });
     this.router.navigate(['/']);
   }
+
 }

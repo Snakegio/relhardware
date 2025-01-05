@@ -64,12 +64,8 @@ export class MenuComponent implements OnInit {
           {
             label: 'Gestione',
             icon: 'pi pi-fw pi-user-edit',
-            routerLink: ['/user-management'],
-          },
-          {
-            label: 'Ruoli',
-            icon: 'pi pi-fw pi-cog',
-            routerLink: ['/role-management'],
+
+            url: 'http://localhost:8080',
           },
         ],
       },

@@ -4,11 +4,11 @@ import { AssignationController } from './assignation.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Assignation } from './entities/assignation.entity';
 import { Item } from '../item/entities/item.entity';
-import { User } from '../users/entities/user.entity';
+import { UserService } from '../users/user.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Assignation, User, Item])],
+  imports: [TypeOrmModule.forFeature([Assignation, Item])],
   controllers: [AssignationController],
-  providers: [AssignationService],
+  providers: [AssignationService,UserService],
 })
 export class AssignationModule {}

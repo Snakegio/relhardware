@@ -6,6 +6,7 @@
     <ng-template pTemplate="end">
       <p-menu #profileMenu [popup]="true" [model]="profileMenuItems"></p-menu>
       <p-button
+        [label]="username()"
         icon="pi pi-user"
         class="p-button-text"
         (click)="profileMenu.toggle($event)"

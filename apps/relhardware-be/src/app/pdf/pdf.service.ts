@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../users/entities/user.entity';
 import { CreatePdfDto } from './dto/create-pdf.dto';
 import { Response } from 'express';
 import PdfPrinter from 'pdfmake';
@@ -10,6 +9,8 @@ import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { Assignation } from '../assignation/entities/assignation.entity';
 import { readFileSync } from 'fs';
 import { PdfTableDto } from './dto/pdf-table.dto';
+import { UserResponseDto } from '../users/dto/user-response.dto';
+import { UserService } from '../users/user.service';
 
 @Injectable()
 export class PdfService {
@@ -17,12 +18,13 @@ export class PdfService {
 
   constructor(
     @InjectRepository(Assignation)
-    private readonly assignationRepository: Repository<Assignation>
+    private readonly assignationRepository: Repository<Assignation>,
+    private readonly userService: UserService,
   ) {}
 
   async create(
     createPdfDto: CreatePdfDto,
-    loggedUser: User,
+    loggedUser: UserResponseDto,
     response: Response
   ) {
     this.logger.debug(
@@ -41,13 +43,14 @@ export class PdfService {
     const pdf = await this.generateDynamicPdf(
       this.getImageBase64('assets/images/logo-white.png'),
       'Assegnazione Sistemi Informatici Aziendali',
-      `prova ${loggedUser.name} ${loggedUser.surname}`,
+      `prova ${loggedUser.firstName} ${loggedUser.lastName}`,
       this.generateTableDto(assignation),
       'Sesto san Giovanni'
     );
+    const user= await this.userService.findById(assignation.user);
     response.setHeader(
       'Content-Disposition',
-      `attachment; filename="${assignation.user.name} ${assignation.user.surname}.pdf"`
+      `attachment; filename="${user.firstName} ${user.lastName}.pdf"`
     );
 
     pdf.pipe(response);
@@ -96,7 +99,7 @@ export class PdfService {
         // Descrizione
         {
           text: description,
-          margin: [0, 20, , 20],
+          margin: [0, 20, 0, 20],
         },
 
         // Tabella Dinamica

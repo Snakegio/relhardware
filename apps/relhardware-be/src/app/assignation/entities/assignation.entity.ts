@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { User } from '../../users/entities/user.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Item } from '../../item/entities/item.entity';
 
 @Entity('assignations')
@@ -13,8 +6,8 @@ export class Assignation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, { nullable: false, eager: true })
-  user: User;
+  @Column({ type: 'text' })
+  user: string;
 
   @OneToMany(() => Item, (item) => item.assignation)
   items: Item[];

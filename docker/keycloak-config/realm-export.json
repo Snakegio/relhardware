@@ -273,6 +273,7 @@
         }
       ],
       "realmRoles": [
+        "default-roles-relhardware",
         "ADMIN",
         "READ",
         "MODIFY"

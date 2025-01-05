@@ -1,15 +1,14 @@
-import { IRoleDto, IUser } from '@relhardware/dto-shared';
-import { Exclude } from 'class-transformer';
+import { IUser } from '@relhardware/dto-shared';
 
 export class UserResponseDto implements IUser {
-  id: number;
-  name: string;
-  surname: string;
-  creationDate: Date;
-  modificationDate: Date;
-  email: string;
-  enable: boolean;
-  @Exclude()
-  password: string;
-  roles: IRoleDto[];
+  id?: string;
+  createdTimestamp?: number;
+  username?: string;
+  enabled?: boolean;
+  emailVerified?: boolean;
+  email?: string;
+  firstName?: string;
+  groups?: string[];
+  lastName?: string;
+  realmRoles?: string[];
 }

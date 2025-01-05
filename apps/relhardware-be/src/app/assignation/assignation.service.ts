@@ -4,10 +4,10 @@ import { UpdateAssignationDto } from './dto/update-assignation.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Assignation } from './entities/assignation.entity';
 import { In, Repository } from 'typeorm';
-import { User } from '../users/entities/user.entity';
 import { Item } from '../item/entities/item.entity';
 import { AssignationResponseDto } from './dto/assignation-response.dto';
 import { plainToInstance } from 'class-transformer';
+import { UserService } from '../users/user.service';
 
 @Injectable()
 export class AssignationService {
@@ -18,16 +18,14 @@ export class AssignationService {
   constructor(
     @InjectRepository(Assignation)
     private assignationRepository: Repository<Assignation>,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    private userService: UserService,
     @InjectRepository(Item) private itemRepository: Repository<Item>
   ) {}
 
   async create(
     createAssignationDto: CreateAssignationDto
   ): Promise<AssignationResponseDto> {
-    const user = await this.userRepository.findOneBy({
-      id: createAssignationDto.userId,
-    });
+    const user = await this.userService.findById(createAssignationDto.userId);
     if (!user) {
       throw new NotFoundException(
         `User with ID ${createAssignationDto.userId} not found`
@@ -43,7 +41,7 @@ export class AssignationService {
 
     const assignation = this.assignationRepository.create({
       ...createAssignationDto,
-      user,
+      user: createAssignationDto.userId,
       items: items,
     });
 
@@ -82,18 +80,7 @@ export class AssignationService {
     if (!assignation) {
       throw new NotFoundException(`Assignation with ID ${id} not found`);
     }
-
-    if (updateAssignationDto.userId) {
-      const user = await this.userRepository.findOneBy({
-        id: updateAssignationDto.userId,
-      });
-      if (!user) {
-        throw new NotFoundException(
-          `User with ID ${updateAssignationDto.userId} not found`
-        );
-      }
-      assignation.user = user;
-    }
+    assignation.user = updateAssignationDto.userId;
 
     if (updateAssignationDto.itemIds) {
       const items = await this.itemRepository.findBy({

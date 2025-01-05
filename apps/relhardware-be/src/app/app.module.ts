@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entities/user.entity';
-import { Roles } from './roles/entities/roles.entity';
 import { ConfigModule } from '@nestjs/config';
-import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
 import { CompanyModule } from './company/company.module';
 import { Company } from './company/entities/company.entity';
@@ -17,7 +14,6 @@ import { Assignation } from './assignation/entities/assignation.entity';
 import {
   AuthGuard,
   KeycloakConnectModule,
-  ResourceGuard,
   RoleGuard,
 } from 'nest-keycloak-connect';
 import { KeycloakConfigService } from './keycloak-config/keycloak-config.service';
@@ -34,14 +30,13 @@ import { APP_GUARD } from '@nestjs/core';
       password: 'relhardware',
       database: 'postgres',
       schema: 'relhardware',
-      entities: [User, Roles, Company, ItemType, Item, Assignation],
+      entities: [Company, ItemType, Item, Assignation],
       synchronize: false,
     }),
     UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    RolesModule,
     CompanyModule,
     ItemTypeModule,
     ItemModule,

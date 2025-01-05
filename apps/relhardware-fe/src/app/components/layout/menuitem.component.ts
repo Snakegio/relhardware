@@ -138,7 +138,7 @@ export class MenuitemComponent implements OnInit, OnDestroy {
 
   menuResetSubscription: Subscription;
 
-  key: string = '';
+  key = '';
 
   constructor(
     private cd: ChangeDetectorRef,
@@ -189,7 +189,7 @@ export class MenuitemComponent implements OnInit, OnDestroy {
   }
 
   updateActiveStateFromRoute() {
-    let activeRoute = this.router.isActive(this.item.routerLink[0], {
+    const activeRoute = this.router.isActive(this.item.routerLink[0], {
       paths: 'exact',
       queryParams: 'ignored',
       matrixParams: 'ignored',

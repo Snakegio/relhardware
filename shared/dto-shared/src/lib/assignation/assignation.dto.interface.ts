@@ -1,6 +1,6 @@
 export interface IAssignationDto {
   id: number;
-  userId: number;
+  userId: string;
   itemId: number[];
   assignationDate: Date;
   modificationDate: Date;
