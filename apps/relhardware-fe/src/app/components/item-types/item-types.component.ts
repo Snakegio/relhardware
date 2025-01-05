@@ -4,7 +4,6 @@ import {
   model,
   OnInit,
   signal,
-  WritableSignal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemTypeService } from '../../service/item-type.service';
