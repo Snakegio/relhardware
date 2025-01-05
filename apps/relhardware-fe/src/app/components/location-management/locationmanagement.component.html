@@ -1,48 +1,110 @@
 
 @defer {
-  LOCAZIONI
   <div class="card">
-    <p-table [value]="users" [tableStyle]="{ 'min-width': '60rem' }">
-      <ng-template #caption>
-        <div class="flex items-center justify-between">
-          <span class="text-xl font-bold">Utenti</span>
-          <p-button icon="pi pi-refresh" rounded raised />
+
+    <p-dataview #dv [value]="companies()">
+      <ng-template #header>
+        <div class="flex justify-end">
+          <p-selectbutton [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
+            <ng-template #item let-item>
+              <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
+            </ng-template>
+          </p-selectbutton>
+          <p-button label="Create" icon="pi pi-create"  (onClick)="createCompany()" />
+          <app-location-dialog [isVisible]="isVisible()" (visibilityChange)="closedModal()"></app-location-dialog>
         </div>
       </ng-template>
-      <ng-template #header>
-        <tr>
-          <th>Nome</th>
-          <th>Cognome</th>
-          <th>Email</th>
-          <th>Ruolo</th>
-          <th>Attivo</th>
-          <th>Connesso</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-user>
-        <tr>
-          <td>{{ user.name }}</td>
-          <td>{{ user.surname }}</td>
-          <td>{{ user.email }}</td>
-          <td>  @for (role of user.roles; track role.id) {
-            <p-tag [value]="role.name" [severity]="getRole(role.name)" />
-          }
-          </td>
-          <td>@if(user.enable) {
-            <p-chip icon="pi pi-check" />
-          } @else {
-            <p-chip icon="pi pi-times" />
-          }</td>
 
-          <td>@if(user.enableInternet) {
-            <p-chip icon="pi pi-check" />
-          } @else {
-            <p-chip icon="pi pi-times" />
-          }</td>
-        </tr>
+      <ng-template #list let-items>
+        <div *ngFor="let item of items; let first = first">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center p-6 gap-4"
+            [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }"
+          >
+            <div class="md:w-40 relative">
+              <img
+                class="block xl:block mx-auto rounded w-full"
+                [src]="'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.png'"
+                [alt]="item.name"
+              />
+              <p-tag
+                [value]="item.city"
+                [severity]="'danger'"
+                class="absolute"
+                styleClass="dark:!bg-surface-900"
+                [style.left.px]="4"
+                [style.top.px]="4"
+              />
+            </div>
+            <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
+              <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                <div>
+                  <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">{{ item.location }}, {{item.postalCode}}</span>
+                  <div class="text-lg font-medium mt-2">{{ item.name }}</div>
+                </div>
+                <div class="bg-surface-100 p-1" style="border-radius: 30px">
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </ng-template>
-      <ng-template #footer> In total there are {{ users ? users.length : 0 }} users. </ng-template>
-    </p-table>
+      <ng-template #grid let-items>
+        <div class="grid grid-cols-12 gap-4">
+          <div *ngFor="let item of items" class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-6 p-2">
+            <div
+              class="p-6 border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded flex flex-col"
+            >
+              <div class="bg-surface-50 flex justify-center rounded p-4">
+                <div class="relative mx-auto">
+                  <img
+                    class="rounded w-full"
+                    [src]="'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.png'"
+                    [alt]="item.name"
+                    style="max-width: 300px"
+                  />
+                  <p-tag
+                    [value]="item.city"
+                    [severity]="'danger'"
+                    class="absolute"
+                    styleClass="dark:!bg-surface-900"
+                    [style.left.px]="4"
+                    [style.top.px]="4"
+                  />
+                </div>
+              </div>
+              <div class="pt-6">
+                <div class="flex flex-row justify-between products-start gap-2">
+                  <div>
+                                    <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">{{
+                                        item.location
+                                      }}, {{item.postalCode}}</span>
+                    <div class="text-lg font-medium mt-1">{{ item.name }}</div>
+                  </div>
+
+                </div>
+                <div class="flex flex-col gap-6 mt-6">
+                  <div class="flex gap-2">
+                    <button
+                      pButton
+                      icon="pi pi-modify"
+                      label="Buy Now"
+
+                      class="flex-auto whitespace-nowrap"
+                    ></button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+
+    </p-dataview>
+
   </div>
 } @placeholder {
   <p>In caricamento</p>

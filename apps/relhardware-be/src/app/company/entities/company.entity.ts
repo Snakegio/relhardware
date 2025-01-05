@@ -8,4 +8,8 @@ export class Company {
   name: string;
   @Column({ type: 'varchar' })
   location: string;
+  @Column({ type: 'varchar' })
+  city: string;
+  @Column({ type: 'varchar' })
+  postalCode: string;
 }

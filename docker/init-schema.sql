@@ -42,7 +42,9 @@ create table relhardware.company
     constraint "PK_056f7854a7afdba7cbd6d45fc20"
       primary key,
   name     varchar not null,
-  location varchar not null
+  location varchar not null,
+  city varchar not null,
+  "postalCode" varchar not null
 );
 
 alter table relhardware.company

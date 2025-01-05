@@ -5,4 +5,6 @@ export class CreateCompanyDto {
   @IsNotEmpty()
   name: string;
   location?: string;
+  city?: string;
+  postalCode?: string;
 }

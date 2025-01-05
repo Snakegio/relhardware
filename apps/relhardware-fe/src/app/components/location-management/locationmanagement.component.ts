@@ -1,36 +1,52 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { Button } from 'primeng/button';
+import { Button, ButtonModule } from 'primeng/button';
 import { Tag } from 'primeng/tag';
-import { UserResponseDtoService } from '../../service/userDto.service';
-import { IUser } from '@relhardware/dto-shared';
+import { ICompanyDto } from '@relhardware/dto-shared';
 import { Chip } from 'primeng/chip';
+import { CompanyService } from '../../service/company.service';
+import { MessageService } from 'primeng/api';
+import { DataView } from 'primeng/dataview';
+import { FormsModule } from '@angular/forms';
+import { SelectButton } from 'primeng/selectbutton';
+import { NgClass, NgForOf } from '@angular/common';
+import { InputText } from 'primeng/inputtext';
+import { CreatelocationDialogComponent } from './dialog/createlocation.dialog';
 
 @Component({
   selector: 'app-location-management',
   templateUrl: './locationmanagement.component.html',
-  imports: [TableModule, Button, Tag, Chip],
-  standalone: true,
+  imports: [ButtonModule, Tag, DataView, FormsModule, SelectButton, NgClass, NgForOf, CreatelocationDialogComponent],
+  providers: [CompanyService, MessageService],
+  standalone: true
 })
 export class LocationManagementComponent implements OnInit {
-  users!: IUser[];
+  companies = signal<ICompanyDto[]>([]);
+  private assignationService = inject(CompanyService);
+  private messageService = inject(MessageService);
 
-  constructor(private usersService: UserResponseDtoService) {}
+  layout = 'grid';
+  options = ['list', 'grid'];
+  isVisible = signal<boolean>(false);
+
+  closedModal() {
+    this.isVisible.set(false);
+  }
 
   ngOnInit() {
-    this.usersService.getUserResponseDtos().subscribe((response) => {
-      this.users = response;
-    });
+    this.assignationService.getCompanies()
+      .subscribe({
+        next: (data) => this.companies.set(data),
+        error: (err) => this.messageService.add({
+          severity: 'error',
+          summary: 'Fetch Failed'
+        })
+      });
   }
 
-  getRole(role: string) {
-    switch (role) {
-      case 'user':
-        return 'info';
-      case 'admin':
-        return 'danger';
-      default:
-        return undefined;
-    }
+  createCompany() {
+    this.isVisible.set(true);
   }
+
+
 }
