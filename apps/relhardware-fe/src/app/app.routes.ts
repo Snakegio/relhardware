@@ -1,5 +1,4 @@
 import { Route } from '@angular/router';
-import { LayoutComponent } from './components/layout/layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { ItemTypesComponent } from './components/item-types/item-types.component';
@@ -10,7 +9,6 @@ import { createAuthGuard } from 'keycloak-angular';
 export const appRoutes: Route[] = [
   {
     path: '',
-    component: LayoutComponent,
     canActivate: [createAuthGuard],
     children: [
       {

@@ -1,8 +1,14 @@
-<main class="main">
-  <router-outlet />
-  <div class="flex flex-col">
-    <p-toast position="top-right"></p-toast>
+<p-toast position="top-right"/>
+<div class="layout-wrapper" [ngClass]="containerClass">
+  <app-topbar></app-topbar>
+  <div class="layout-sidebar">
+    <app-sidebar></app-sidebar>
   </div>
-</main>
-
-
+  <div class="layout-main-container">
+    <div class="layout-main">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </div>
+  <div class="layout-mask"></div>
+</div>

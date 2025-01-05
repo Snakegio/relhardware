@@ -10,6 +10,7 @@ import { IAssignationDto, IItem } from '@relhardware/dto-shared';
   templateUrl: './allocationmanagement.component.html',
   imports: [TableModule],
   standalone: true,
+  providers: [AssignationService],
 })
 export class AllocationManagementComponent implements OnInit {
   assignations = signal<IAssignationDto[]>([]);
