@@ -46,12 +46,12 @@ export class MenuComponent implements OnInit {
             routerLink: ['/item-types'],
           },
           {
-            label: 'Lista ubicazioni',
+            label: 'Filiali',
             icon: 'pi pi-fw pi-map-marker',
             routerLink: ['/item-location'],
           },
           {
-            label: 'Lista allocazioni',
+            label: 'Assegnazioni',
             icon: 'pi pi-fw pi-users',
             routerLink: ['/item-allocation'],
           },
@@ -64,8 +64,8 @@ export class MenuComponent implements OnInit {
           {
             label: 'Gestione',
             icon: 'pi pi-fw pi-user-edit',
-
             url: 'http://localhost:8080',
+            target: '_blank',
           },
         ],
       },
