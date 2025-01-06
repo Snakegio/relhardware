@@ -1,0 +1,10 @@
+.map-container {
+  text-align: center;
+}
+
+img {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-width: 100%;
+  height: auto;
+}

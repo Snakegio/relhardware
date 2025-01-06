@@ -1,4 +1,5 @@
-<p-dialog header="Crea filiale" [modal]="true" [(visible)]="visible" [style]="{ width: '40rem' }"
+<p-dialog header="{{ isEditMode ? 'Modifica filiale' : 'Crea filiale' }}"
+          [modal]="true" [(visible)]="visible" [style]="{ width: '40rem' }"
           [closeOnEscape]="true" closable="false" (onHide)="undoOperation()">
   <form [formGroup]="companyForm" (ngSubmit)="saveOperation()">
 

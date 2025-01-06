@@ -10,6 +10,8 @@ import { SelectButton } from 'primeng/selectbutton';
 import { NgClass, NgForOf } from '@angular/common';
 import { CreatelocationDialogComponent } from './dialog/createlocation.dialog';
 import { Toolbar } from 'primeng/toolbar';
+import { MapComponent } from './map/map.component';
+import { Ripple } from 'primeng/ripple';
 
 @Component({
   selector: 'app-location-management',
@@ -23,18 +25,22 @@ import { Toolbar } from 'primeng/toolbar';
     NgClass,
     NgForOf,
     CreatelocationDialogComponent,
-    Toolbar
+    Toolbar,
+    MapComponent,
+    Ripple
   ],
   providers: [CompanyService, MessageService],
   standalone: true,
 })
 export class LocationManagementComponent implements OnInit {
   companies = signal<ICompanyDto[]>([]);
-  private assignationService = inject(CompanyService);
+
+  private companyService = inject(CompanyService);
   private messageService = inject(MessageService);
 
-  layout = 'grid';
-  options = ['list', 'grid'];
+
+  selectedCompany = signal<ICompanyDto | null>(null);
+  layout: 'list' | 'grid' = 'grid';
   isDialogVisible = model<boolean>(false);
 
 
@@ -44,7 +50,7 @@ export class LocationManagementComponent implements OnInit {
   }
 
   refreshData() {
-    this.assignationService.getCompanies().subscribe({
+    this.companyService.getCompanies().subscribe({
       next: (data) => this.companies.set(data),
       error: (err) =>
         this.messageService.add({
@@ -54,8 +60,21 @@ export class LocationManagementComponent implements OnInit {
     });
   }
 
+  updateCompany(company: ICompanyDto) {
+    this.selectedCompany.update(() => company);
+    this.isDialogVisible.set(true);
+  }
 
   createCompany() {
+    this.selectedCompany.update(() => null);
     this.isDialogVisible.set(true);
+  }
+
+  deleteCompany(companyId: number) {
+    if (confirm('Sei sicuro di voler eliminare questa filiale?')) {
+      this.companyService.deleteCompany(companyId).subscribe(() => {
+        this.refreshData(); // Ricarica la lista delle filiali dopo l'eliminazione
+      });
+    }
   }
 }

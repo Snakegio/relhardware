@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
-  model, output
+  inject, input,
+  model, OnChanges, OnInit, output, SimpleChanges
 } from '@angular/core';
 import { ICompanyDto } from '@relhardware/dto-shared';
 import { Dialog } from 'primeng/dialog';
@@ -31,23 +31,45 @@ import { MessageService } from 'primeng/api';
   templateUrl: 'createlocation.dialog.html'
 })
 
-export class CreatelocationDialogComponent {
+export class CreatelocationDialogComponent implements OnInit, OnChanges  {
 
   companyService = inject(CompanyService);
   messageService = inject(MessageService);
 
-
+  company = input<ICompanyDto | null>(null);
   visible = model<boolean>(true);
   refreshData = output<void>();
+  isEditMode = false;
+  companyForm!: FormGroup;
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['company'] && this.company()) {
+      const company = this.company();
+      if(company != null)
+        this.initializeForm(company);
+    }
+  }
 
-  companyForm = new FormGroup({
-    id: new FormControl(),
-    name: new FormControl('', [Validators.required]),
-    location: new FormControl(''),
-    city: new FormControl(''),
-    postalCode: new FormControl(''),
-  });
+  private initializeForm(company: ICompanyDto) {
+    this.isEditMode = true;
+    this.companyForm = new FormGroup({
+      id: new FormControl(company.id),
+      name: new FormControl(company.name, [Validators.required]),
+      location: new FormControl(company.location),
+      city: new FormControl(company.city),
+      postalCode: new FormControl(company.postalCode)
+    });
+  }
+
+  ngOnInit() {
+      this.companyForm = new FormGroup({
+        id: new FormControl(),
+        name: new FormControl('', [Validators.required]),
+        location: new FormControl(''),
+        city: new FormControl(''),
+        postalCode: new FormControl('')
+      });
+  }
 
   undoOperation() {
     this.visible.set(false);
@@ -56,26 +78,54 @@ export class CreatelocationDialogComponent {
   saveOperation() {
       if(this.companyForm.valid) {
         const companyToSave = <ICompanyDto> this.companyForm.getRawValue();
+        if (this.isEditMode) {
+          this.companyService.patchCompany(companyToSave.id, companyToSave).subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Company Updated',
+              });
+              this.refreshData.emit();
+              this.resetForm();
+              this.undoOperation();
+            },
+            error: () => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Company Update Failed',
+              });
+            },
+          });
+        } else {
+          this.companyService.postCompany(companyToSave)
+            .subscribe({
+              next: () => {
+                this.messageService.add({
+                  severity:'success',
+                  summary: 'Company Created'
+                });
+                this.refreshData.emit();
+                this.resetForm();
+                this.undoOperation();
+              },
+              error: () => {
+                this.messageService.add({
+                  severity: 'error',
+                  summary: 'Company Creation Failed',
+                });
+              }
+            })
+        }
 
-        this.companyService.postCompany(companyToSave)
-          .subscribe({
-          next: () => {
-            this.messageService.add({
-              severity:'success',
-              summary: 'Company Created'
-            });
-            this.refreshData.emit();
-            this.companyForm.reset();
-            this.undoOperation();
-          },
-          error: () => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Company Creation Failed',
-            });
-          }
-        })
+
+
       }
+  }
+
+
+
+  private resetForm() {
+    this.companyForm.reset();
   }
 
 

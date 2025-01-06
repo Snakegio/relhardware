@@ -1,8 +1,7 @@
-
 @defer {
   <p-toolbar styleClass="mb-6">
     <ng-template #start>
-      <p-button label="Create" icon="pi pi-plus"  (onClick)="createCompany()" />
+      <p-button label="Create" icon="pi pi-plus" (onClick)="createCompany()" />
     </ng-template>
 
   </p-toolbar>
@@ -10,100 +9,45 @@
 
   <div class="card">
 
-    <p-dataview #dv [value]="companies()">
+    <p-dataview #dv [value]="companies()" [layout]="layout">
       <ng-template #header>
-        <div class="flex justify-end">
-          <p-selectbutton [(ngModel)]="layout" [options]="options" [allowEmpty]="false">
-            <ng-template #item let-item>
-              <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
-            </ng-template>
-          </p-selectbutton>
-
-        </div>
-      </ng-template>
-
-      <ng-template #list let-items>
-        <div *ngFor="let item of items; let first = first">
-          <div
-            class="flex flex-col sm:flex-row sm:items-center p-6 gap-4"
-            [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }"
-          >
-            <div class="md:w-40 relative">
-              <img
-                class="block xl:block mx-auto rounded w-full"
-                [src]="'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.png'"
-                [alt]="item.name"
-              />
-              <p-tag
-                [value]="item.city"
-                [severity]="'danger'"
-                class="absolute"
-                styleClass="dark:!bg-surface-900"
-                [style.left.px]="4"
-                [style.top.px]="4"
-              />
-            </div>
-            <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
-              <div class="flex flex-row md:flex-col justify-between items-start gap-2">
-                <div>
-                  <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">{{ item.location }}, {{item.postalCode}}</span>
-                  <div class="text-lg font-medium mt-2">{{ item.name }}</div>
-                </div>
-                <div class="bg-surface-100 p-1" style="border-radius: 30px">
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
+        box search
       </ng-template>
       <ng-template #grid let-items>
         <div class="grid grid-cols-12 gap-4">
           <div *ngFor="let item of items" class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-6 p-2">
             <div
-              class="p-6 border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded flex flex-col"
+              class="p-1 border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded flex flex-col"
             >
               <div class="bg-surface-50 flex justify-center rounded p-4">
                 <div class="relative mx-auto">
-                  <img
-                    class="rounded w-full"
-                    [src]="'https://primefaces.org/cdn/primeng/images/demo/product/bamboo-watch.png'"
-                    [alt]="item.name"
-                    style="max-width: 300px"
-                  />
-                  <p-tag
-                    [value]="item.city"
-                    [severity]="'danger'"
-                    class="absolute"
-                    styleClass="dark:!bg-surface-900"
-                    [style.left.px]="4"
-                    [style.top.px]="4"
-                  />
+                  <app-map [data]="item" [layout]="layout"></app-map>
+
                 </div>
               </div>
               <div class="pt-6">
                 <div class="flex flex-row justify-between products-start gap-2">
                   <div>
-                                    <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">{{
-                                        item.location
-                                      }}, {{item.postalCode}}</span>
+                  <span class="font-medium text-surface-500 dark:text-surface-400 text-sm">
+                    {{ item.location }}, {{ item.postalCode }}</span>
                     <div class="text-lg font-medium mt-1">{{ item.name }}</div>
                   </div>
-
                 </div>
-                <div class="flex flex-col gap-6 mt-6">
-                  <div class="flex gap-2">
-                    <button
-                      pButton
-                      icon="pi pi-modify"
-                      label="Buy Now"
-
-                      class="flex-auto whitespace-nowrap"
-                    ></button>
-
+                  <div class="flex-shrink-0">
+                    <p-button
+                      pRipple
+                      icon="pi pi-pencil"
+                      class="p-button-text"
+                      (click)="updateCompany(item)"
+                    ></p-button>
+                    <p-button
+                      pRipple
+                      icon="pi pi-trash"
+                      class="ml-2 p-button-text"
+                      (click)="deleteCompany(item.id)"
+                    ></p-button>
                   </div>
-                </div>
+
               </div>
             </div>
           </div>
@@ -115,7 +59,7 @@
   </div>
 
 
-  <app-location-dialog [(visible)]="isDialogVisible" (refreshData)="refreshData()"></app-location-dialog>
+  <app-location-dialog [(visible)]="isDialogVisible" [company]="selectedCompany()" (refreshData)="refreshData()"></app-location-dialog>
 } @placeholder {
   <p>In caricamento</p>
 }

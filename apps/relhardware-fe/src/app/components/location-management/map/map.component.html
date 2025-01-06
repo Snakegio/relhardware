@@ -1,0 +1,16 @@
+<div class="map-container">
+  <div *ngIf="coordinates; else loading">
+    <img [src]="mapUrl" alt="Mappa generata" />
+    <p-tag
+      [value]="data().city"
+      [severity]="'info'"
+      class="absolute"
+      styleClass="dark:!bg-surface-900"
+      [style.left.px]="4"
+      [style.top.px]="18"
+    />
+  </div>
+  <ng-template #loading>
+   <p-skeleton width="300" height="200" />
+  </ng-template>
+</div>
