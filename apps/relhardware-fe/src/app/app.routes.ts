@@ -5,6 +5,7 @@ import { ItemTypesComponent } from './components/item-types/item-types.component
 import { LocationManagementComponent } from './components/location-management/locationmanagement.component';
 import { AllocationManagementComponent } from './components/allocation-management/allocationmanagement.component';
 import { createAuthGuard } from 'keycloak-angular';
+import { InventoryComponent } from './components/inventory/inventory.component';
 
 export const appRoutes: Route[] = [
   {
@@ -14,6 +15,10 @@ export const appRoutes: Route[] = [
       {
         path: 'dashboard',
         component: DashboardComponent,
+      },
+      {
+        path: 'inventory',
+        component: InventoryComponent,
       },
       {
         path: 'item-types',

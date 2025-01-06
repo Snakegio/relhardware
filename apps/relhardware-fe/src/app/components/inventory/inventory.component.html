@@ -1,0 +1,80 @@
+<p-toolbar styleClass="mb-6">
+  <ng-template #start>
+    <p-button label="Create" icon="pi pi-plus" class="mr-2" (click)="openNew()" />
+  </ng-template>
+
+</p-toolbar>
+<p-table [value]="items()" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}"
+         [showCurrentPageReport]="true"
+         [rowHover]="true"
+>
+  <ng-template #header>
+    <tr>
+      <th style="width:90%">Name</th>
+      <th style="width:20%">Actions</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-item let-editing="editing" let-ri="rowIndex">
+    <tr [pEditableRow]="item">
+      <td>
+        <p-cellEditor>
+          <ng-template #input>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="item.name" />
+          </ng-template>
+          <ng-template #output>
+            {{ item.name }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+
+      <td>
+        <div class="flex items-center justify-center gap-2">
+          @if (!editing) {
+            <p-button
+              pRipple
+              pInitEditableRow
+              icon="pi pi-pencil"
+              severity="secondary"
+            ></p-button>
+            <p-button
+              pRipple
+              icon="pi pi-trash"
+              severity="secondary"
+              (click)="deleteElem($event,item)"
+            ></p-button>
+          } @else {
+            <p-button
+              pRipple
+              pSaveEditableRow
+              icon="pi pi-check"
+              (onClick)="onItemSave(item)"
+              severity="secondary"
+            ></p-button>
+            <p-button
+              pRipple
+              type="button"
+              pCancelEditableRow
+              icon="pi pi-times"
+              severity="secondary"
+            ></p-button>
+          }
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="8">Empty Data Click
+        <p-button label="Here" [link]="true" (click)="openNew()" />
+        to create new one!
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<app-create-item [(visible)]="showDialog" (refreshData)="updateData()"></app-create-item>
+
