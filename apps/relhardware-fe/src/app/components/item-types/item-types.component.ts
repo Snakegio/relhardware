@@ -1,10 +1,4 @@
-import {
-  Component,
-  inject,
-  model,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ItemTypeService } from '../../service/item-type.service';
 import { IItemType } from '@relhardware/dto-shared';
@@ -31,11 +25,11 @@ import { CreateItemTypesComponent } from '../dialog/create-item-types/create-ite
     Toolbar,
     ToastModule,
     ConfirmPopupModule,
-    CreateItemTypesComponent
+    CreateItemTypesComponent,
   ],
   providers: [ItemTypeService, ConfirmationService],
   templateUrl: './item-types.component.html',
-  standalone: true
+  standalone: true,
 })
 export class ItemTypesComponent implements OnInit {
   private confirmationService = inject(ConfirmationService);
@@ -49,7 +43,7 @@ export class ItemTypesComponent implements OnInit {
   }
 
   updateData() {
-    this.itemTypeService.getItemTypes().subscribe({
+    this.itemTypeService.findAll().subscribe({
       next: (items) => {
         this.items.set(items);
       },
@@ -57,9 +51,10 @@ export class ItemTypesComponent implements OnInit {
   }
 
   onItemSave(item: IItemType) {
-    this.itemTypeService
-      .updateItemType(item.id, item)
-      .subscribe(() => this.updateData());
+    if (item.id)
+      this.itemTypeService
+        .updateItemType(item.id, item)
+        .subscribe(() => this.updateData());
   }
 
   openNew() {
@@ -81,7 +76,8 @@ export class ItemTypesComponent implements OnInit {
         severity: 'danger',
       },
       accept: () => {
-        this.itemTypeService.deleteItemType(itemType.id).subscribe(() => {
+        if (itemType.id)
+          this.itemTypeService.deleteItemType(itemType.id).subscribe(() => {
           this.updateData();
           this.messageService.add({
             severity: 'info',

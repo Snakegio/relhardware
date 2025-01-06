@@ -2,31 +2,24 @@ import {
   IsBoolean,
   IsDate,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { ICompany, IItem, IItemType } from '@relhardware/dto-shared';
 
-export class CreateItemDto {
+export class CreateItemDto implements IItem {
   @IsNotEmpty()
-  @IsNumber()
-  itemType: number;
+  itemType: IItemType;
 
   @IsOptional()
   @IsString()
   internalCode?: string;
 
-  @IsOptional()
   @IsString()
-  model?: string;
+  model: string;
 
-  @IsOptional()
   @IsString()
-  serviceTag?: string;
-
-  @IsOptional()
-  @IsString()
-  company?: string;
+  serviceTag: string;
 
   @IsOptional()
   @IsString()
@@ -53,6 +46,5 @@ export class CreateItemDto {
   modificationDate?: Date;
 
   @IsNotEmpty()
-  @IsNumber()
-  idCompany: number;
+  company: ICompany;
 }

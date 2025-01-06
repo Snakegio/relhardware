@@ -1,6 +1,6 @@
-import { ICompanyDto } from '@relhardware/dto-shared';
+import { ICompany } from '@relhardware/dto-shared';
 
-export class CompanyResponseDto implements ICompanyDto {
+export class CompanyResponseDto implements ICompany {
   id: number;
   name: string;
   location: string;

@@ -53,13 +53,14 @@
       "e2eTestRunner": "none",
       "linter": "eslint",
       "style": "scss",
-      "unitTestRunner": "jest"
+      "unitTestRunner": "none"
     },
     "@nx/nest:service": {
       "unitTestRunner": "none"
     },
     "@nx/angular:component": {
-      "style": "css"
+      "style": "scss",
+      "standalone": true
     }
   },
   "plugins": [

@@ -7,7 +7,7 @@ import { IItemType } from '@relhardware/dto-shared';
 export class ItemTypeService {
   private http = inject(HttpClient);
 
-  getItemTypes(): Observable<IItemType[]> {
+  findAll(): Observable<IItemType[]> {
     return this.http.get<IItemType[]>('api/item-type');
   }
 

@@ -11,8 +11,8 @@ export class ItemService {
     return this.http.get<IItem[]>('api/item');
   }
 
-  createItem(item: string) {
-    return this.http.post('api/item', { name: item });
+  createItem(item: IItem) {
+    return this.http.post('api/item', item);
   }
 
   deleteItem(idItem: number) {

@@ -1,4 +1,4 @@
-export interface ICompanyDto {
+export interface ICompany {
   id: number;
   name: string;
   location: string;

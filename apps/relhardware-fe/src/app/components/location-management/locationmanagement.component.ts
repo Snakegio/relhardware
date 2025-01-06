@@ -1,6 +1,6 @@
 import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { ICompanyDto } from '@relhardware/dto-shared';
+import { ICompany } from '@relhardware/dto-shared';
 import { CompanyService } from '../../service/company.service';
 import { MessageService } from 'primeng/api';
 import { DataView } from 'primeng/dataview';
@@ -28,12 +28,12 @@ import { Ripple } from 'primeng/ripple';
   standalone: true,
 })
 export class LocationManagementComponent implements OnInit {
-  companies = signal<ICompanyDto[]>([]);
+  companies = signal<ICompany[]>([]);
 
   private companyService = inject(CompanyService);
   private messageService = inject(MessageService);
 
-  selectedCompany = signal<ICompanyDto | null>(null);
+  selectedCompany = signal<ICompany | null>(null);
   layout: 'list' | 'grid' = 'grid';
   isDialogVisible = model<boolean>(false);
 
@@ -42,7 +42,7 @@ export class LocationManagementComponent implements OnInit {
   }
 
   refreshData() {
-    this.companyService.getCompanies().subscribe({
+    this.companyService.findAll().subscribe({
       next: (data) => this.companies.set(data),
       error: (err) =>
         this.messageService.add({
@@ -52,7 +52,7 @@ export class LocationManagementComponent implements OnInit {
     });
   }
 
-  updateCompany(company: ICompanyDto) {
+  updateCompany(company: ICompany) {
     this.selectedCompany.update(() => company);
     this.isDialogVisible.set(true);
   }

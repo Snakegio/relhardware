@@ -21,11 +21,10 @@ export class ItemService {
   ) {}
 
   async create(createItemDto: CreateItemDto) {
-    const { itemType, idCompany, ...otherFields } = createItemDto;
-
+    const { itemType, company, ...otherFields } = createItemDto;
     // Verifica dell'esistenza del tipo di elemento (itemType)
     const existingItemType = await this.itemTypeRepository.findOne({
-      where: { id: itemType },
+      where: { id: itemType.id },
     });
     if (!existingItemType) {
       throw new NotFoundException(`ItemType with ID ${itemType} not found`);
@@ -33,10 +32,10 @@ export class ItemService {
 
     // Verifica dell'esistenza della compagnia (idCompany)
     const existingCompany = await this.companyRepository.findOne({
-      where: { id: idCompany },
+      where: { id: company.id },
     });
     if (!existingCompany) {
-      throw new NotFoundException(`Company with ID ${idCompany} not found`);
+      throw new NotFoundException(`Company with ID ${company.id} not found`);
     }
 
     // Creazione e salvataggio dell'elemento
@@ -45,7 +44,6 @@ export class ItemService {
       itemType: existingItemType,
       idCompany: existingCompany,
     });
-
     return plainToInstance(
       ItemResponseDto,
       await this.itemRepository.save(newItem)
@@ -73,7 +71,7 @@ export class ItemService {
     Object.assign(item, updateItemDto);
     // Verifica dell'esistenza del tipo di elemento (itemType)
     const existingItemType = await this.itemTypeRepository.findOne({
-      where: { id: updateItemDto.itemType },
+      where: { id: updateItemDto.itemType.id },
     });
     if (!existingItemType) {
       throw new NotFoundException(
@@ -83,11 +81,11 @@ export class ItemService {
 
     // Verifica dell'esistenza della compagnia (idCompany)
     const existingCompany = await this.companyRepository.findOne({
-      where: { id: updateItemDto.idCompany },
+      where: { id: updateItemDto.company.id },
     });
     if (!existingCompany) {
       throw new NotFoundException(
-        `Company with ID ${updateItemDto.idCompany} not found`
+        `Company with ID ${updateItemDto.company} not found`
       );
     }
     item.itemType = existingItemType;

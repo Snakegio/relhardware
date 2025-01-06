@@ -4,7 +4,7 @@ import {
   inject, input,
   model, OnChanges, OnInit, output, SimpleChanges
 } from '@angular/core';
-import { ICompanyDto } from '@relhardware/dto-shared';
+import { ICompany } from '@relhardware/dto-shared';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
@@ -36,7 +36,7 @@ export class CreatelocationDialogComponent implements OnInit, OnChanges  {
   companyService = inject(CompanyService);
   messageService = inject(MessageService);
 
-  company = input<ICompanyDto | null>(null);
+  company = input<ICompany | null>(null);
   visible = model<boolean>(true);
   refreshData = output<void>();
   isEditMode = false;
@@ -50,7 +50,7 @@ export class CreatelocationDialogComponent implements OnInit, OnChanges  {
     }
   }
 
-  private initializeForm(company: ICompanyDto) {
+  private initializeForm(company: ICompany) {
     this.isEditMode = true;
     this.companyForm = new FormGroup({
       id: new FormControl(company.id),
@@ -77,7 +77,7 @@ export class CreatelocationDialogComponent implements OnInit, OnChanges  {
 
   saveOperation() {
       if(this.companyForm.valid) {
-        const companyToSave = <ICompanyDto> this.companyForm.getRawValue();
+        const companyToSave = <ICompany> this.companyForm.getRawValue();
         if (this.isEditMode) {
           this.companyService.patchCompany(companyToSave.id, companyToSave).subscribe({
             next: () => {

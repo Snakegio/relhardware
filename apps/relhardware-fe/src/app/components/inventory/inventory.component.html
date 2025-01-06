@@ -10,7 +10,9 @@
 >
   <ng-template #header>
     <tr>
-      <th style="width:90%">Name</th>
+      <th style="width:20%">Item Type</th>
+      <th style="width:30%">Model</th>
+      <th style="width:30%">Service Tag</th>
       <th style="width:20%">Actions</th>
     </tr>
   </ng-template>
@@ -25,7 +27,7 @@
               [(ngModel)]="item.name" />
           </ng-template>
           <ng-template #output>
-            {{ item.name }}
+            {{ item.itemType.name }}
           </ng-template>
         </p-cellEditor>
       </td>

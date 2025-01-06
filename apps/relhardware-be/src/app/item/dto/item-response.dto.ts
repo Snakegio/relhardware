@@ -1,6 +1,6 @@
 import {
   IAssignationDto,
-  ICompanyDto,
+  ICompany,
   IItem,
   IItemType,
 } from '@relhardware/dto-shared';
@@ -17,6 +17,6 @@ export class ItemResponseDto implements IItem {
   macAddress: string;
   creationDate?: Date;
   modificationDate?: Date;
-  idCompany?: ICompanyDto;
+  company: ICompany;
   assignation?: IAssignationDto;
 }

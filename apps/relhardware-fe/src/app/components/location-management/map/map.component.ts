@@ -1,7 +1,7 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgIf } from '@angular/common';
-import { ICompanyDto } from '@relhardware/dto-shared';
+import { ICompany } from '@relhardware/dto-shared';
 import { Skeleton } from 'primeng/skeleton';
 import { Tag } from 'primeng/tag';
 
@@ -21,7 +21,7 @@ export class MapComponent implements OnInit {
   private http = inject(HttpClient);
   coordinates: { lat: string; lon: string } | null = null;
   mapUrl = '';
-  data = input.required<ICompanyDto>();
+  data = input.required<ICompany>();
   layout = input.required<string>();
 
   constructor() {

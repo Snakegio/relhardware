@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { InputText } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +26,7 @@ import { CreateItemComponent } from '../dialog/create-item/create-item.component
   standalone: true,
 })
 export class InventoryComponent implements OnInit {
-  private itemService: ItemService = Inject(ItemService);
+  private itemService: ItemService = inject(ItemService);
   items = signal<IItem[]>([]);
 
   showDialog = false;
