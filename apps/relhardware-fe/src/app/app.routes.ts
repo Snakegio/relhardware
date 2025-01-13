@@ -6,10 +6,12 @@ import { LocationManagementComponent } from './components/location-management/lo
 import { AllocationManagementComponent } from './components/allocation-management/allocationmanagement.component';
 import { createAuthGuard } from 'keycloak-angular';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { AppLayout } from './components/layout/component/app.layout';
 
 export const appRoutes: Route[] = [
   {
     path: '',
+    component: AppLayout,
     canActivate: [createAuthGuard],
     children: [
       {

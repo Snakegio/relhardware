@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MenuitemComponent } from './menuitem.component';
-import { LayoutService } from '../../service/layout.service';
+import { RouterModule } from '@angular/router';
+import { MenuItem } from 'primeng/api';
+import { AppMenuitem } from './app.menuitem';
 
 @Component({
-  selector: 'app-menu',
-  standalone: true,
-  templateUrl: './menu.component.html',
-  imports: [CommonModule, MenuitemComponent],
+    selector: 'app-menu',
+    standalone: true,
+    imports: [CommonModule, AppMenuitem, RouterModule],
+    template: `<ul class="layout-menu">
+        <ng-container *ngFor="let item of model; let i = index">
+            <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
+            <li *ngIf="item.separator" class="menu-separator"></li>
+        </ng-container>
+    </ul> `
 })
-export class MenuComponent implements OnInit {
-  model: any[] = [];
-
-  constructor(public layoutService: LayoutService) {}
-
-  ngOnInit() {
-    this.model = [
+// eslint-disable-next-line @angular-eslint/component-class-suffix
+export class AppMenu {
+    model: MenuItem[] = [
       {
         label: 'Home',
         items: [
@@ -70,5 +72,4 @@ export class MenuComponent implements OnInit {
         ],
       },
     ];
-  }
 }

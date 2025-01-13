@@ -1,5 +1,5 @@
 version: "3.9"
-
+name: "relhardware"
 services:
   db:
     image: postgres:17
